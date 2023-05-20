@@ -1,20 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import ADFilledButton from "./src/components/ADButtons/ADFilledButton";
+import ADPrimaryFilledButton from "./src/components/ADButtons/ADPrimaryFilledButton";
+import ADDangerFilledButton from "./src/components/ADButtons/ADDangerFilledButton";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ADFilledButton
-        linearGradientColors={["#30A8FF", "#0061FF"]}
-        text="Hello!"
-        onPress={() => {}}
-      />
-      <ADFilledButton
-        linearGradientColors={["#FF0000", "#CF0000"]}
-        text="Hello!"
-        onPress={() => {}}
-      />
+      <ADPrimaryFilledButton text="Primary" onPress={() => {}} />
+      <ADDangerFilledButton text="Danger" onPress={() => {}} />
       <StatusBar style="auto" />
     </View>
   );
