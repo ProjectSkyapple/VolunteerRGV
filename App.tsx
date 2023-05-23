@@ -5,6 +5,8 @@ import ADDangerFilledButton from "./src/components/ADButtons/ADDangerFilledButto
 import ADHPCard from "./src/components/ADCards/ADHPCard";
 import ADIBEntry from "./src/components/ADEntries/ADIBEntry";
 import textStyles from "./src/components/styles/textStyles";
+import Constants from "expo-constants";
+import { useFonts } from "expo-font";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -12,6 +14,14 @@ interface ADVerticalDTStackProps {
 }
 
 const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
+  const [loaded] = useFonts({
+    FiraSans: require("./assets/fonts/FiraSans-Regular.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <View>
       <Text style={{ textAlign: "center" }}>{props.dateText}</Text>
@@ -31,6 +41,12 @@ const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
+      <View
+        style={{
+          height: Constants.statusBarHeight,
+        }}
+      />
+
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={{ rowGap: 18 }}
@@ -82,9 +98,9 @@ export default function App() {
 
         <ADPrimaryFilledButton text="Register" onPress={() => {}} />
         <ADDangerFilledButton text="Unregister" onPress={() => {}} />
-
-        <StatusBar style="auto" />
       </ScrollView>
+
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
