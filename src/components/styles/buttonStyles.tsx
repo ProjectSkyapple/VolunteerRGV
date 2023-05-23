@@ -7,6 +7,7 @@ const buttonStyles = StyleSheet.create({
     paddingVertical: 9,
   },
   baseButtonText: {
+    textAlign: "center",
     fontWeight: "600",
   },
   filledButtonTextAdditions: {
