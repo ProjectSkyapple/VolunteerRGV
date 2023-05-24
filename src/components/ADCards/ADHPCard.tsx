@@ -1,5 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import cardStyles from "../styles/cardStyles";
+import ADText from "../ADText/ADText";
 
 interface ADHPCardProps {
   heading: string;
@@ -9,8 +10,8 @@ interface ADHPCardProps {
 const ADHPCard = (props: ADHPCardProps) => {
   return (
     <View style={cardStyles.baseCard}>
-      <Text style={cardStyles.headingText}>{props.heading}</Text>
-      <Text>{props.paragraph}</Text>
+      <ADText style={cardStyles.headingText}>{props.heading}</ADText>
+      <ADText>{props.paragraph}</ADText>
     </View>
   );
 };

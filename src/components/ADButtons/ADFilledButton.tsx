@@ -1,7 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, Text } from "react-native";
+import { Pressable } from "react-native";
 import buttonStyles from "../styles/buttonStyles";
 import { useState } from "react";
+import ADText from "../ADText/ADText";
 
 interface ADFilledButtonProps {
   linearGradientColors: string[];
@@ -26,14 +27,14 @@ const ADFilledButton = (props: ADFilledButtonProps) => {
       onPress={props.onPress}
     >
       <LinearGradient colors={lgColors} style={buttonStyles.baseButton}>
-        <Text
+        <ADText
           style={[
             buttonStyles.baseButtonText,
             buttonStyles.filledButtonTextAdditions,
           ]}
         >
           {props.text}
-        </Text>
+        </ADText>
       </LinearGradient>
     </Pressable>
   );

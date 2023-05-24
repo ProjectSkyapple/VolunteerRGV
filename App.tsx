@@ -6,7 +6,7 @@ import ADHPCard from "./src/components/ADCards/ADHPCard";
 import ADIBEntry from "./src/components/ADEntries/ADIBEntry";
 import textStyles from "./src/components/styles/textStyles";
 import Constants from "expo-constants";
-import { useFonts } from "expo-font";
+import ADText from "./src/components/ADText/ADText";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -14,18 +14,10 @@ interface ADVerticalDTStackProps {
 }
 
 const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
-  const [loaded] = useFonts({
-    FiraSans: require("./assets/fonts/FiraSans-Regular.ttf"),
-  });
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
     <View>
-      <Text style={{ textAlign: "center" }}>{props.dateText}</Text>
-      <Text
+      <ADText style={{ textAlign: "center" }}>{props.dateText}</ADText>
+      <ADText
         style={{
           textAlign: "center",
           fontSize: 18,
@@ -33,7 +25,7 @@ const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
         }}
       >
         {props.timeText}
-      </Text>
+      </ADText>
     </View>
   );
 };
@@ -56,10 +48,10 @@ export default function App() {
             source={{ uri: "https://reactjs.org/logo-og.png" }}
             height={300}
           >
-            <Text style={[{ textAlign: "center" }, textStyles.mediumHeading]}>
+            <ADText style={[{ textAlign: "center" }, textStyles.mediumHeading]}>
               This is a short description of the event
-            </Text>
-            <Text style={{ textAlign: "center" }}>Host</Text>
+            </ADText>
+            <ADText style={{ textAlign: "center" }}>Host</ADText>
           </ADIBEntry>
 
           <View style={styles.dateAndTime}>
@@ -83,7 +75,7 @@ export default function App() {
               }}
             >
               <ADVerticalDTStack dateText="MAY 23" timeText="9:00 AM" />
-              <Text>to</Text>
+              <ADText>to</ADText>
               <ADVerticalDTStack dateText="MAY 24" timeText="10:30 AM" />
             </View>
           </View>
