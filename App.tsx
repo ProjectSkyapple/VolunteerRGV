@@ -7,6 +7,7 @@ import ADIBEntry from "./src/components/ADEntries/ADIBEntry";
 import textStyles from "./src/components/styles/textStyles";
 import Constants from "expo-constants";
 import ADText from "./src/components/ADText/ADText";
+import HomeScreen from "./src/components/screens/HomeScreen";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -31,7 +32,7 @@ const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
 };
 
 export default function App() {
-  return (
+  /* return (
     <SafeAreaView style={styles.container}>
       <View
         style={{
@@ -94,7 +95,9 @@ export default function App() {
 
       <StatusBar style="auto" />
     </SafeAreaView>
-  );
+  ); */
+
+  return <HomeScreen />;
 }
 
 const styles = StyleSheet.create({
