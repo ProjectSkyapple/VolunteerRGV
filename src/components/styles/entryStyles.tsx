@@ -5,7 +5,7 @@ const entryStyles = StyleSheet.create({
     width: "100%",
   },
   baseEntryImageBackgroundImageStyle: {
-    borderRadius: 12,
+    borderRadius: 15,
   },
   baseEntryBody: {
     display: "flex",
