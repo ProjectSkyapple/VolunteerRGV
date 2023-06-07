@@ -4,6 +4,7 @@ import { Text, TextStyle } from "react-native";
 interface ADTextProps {
   children: string;
   style?: TextStyle | TextStyle[];
+  numberOfLines?: number;
 }
 
 const ADText = (props: ADTextProps) => {
@@ -17,7 +18,11 @@ const ADText = (props: ADTextProps) => {
   }
   */
 
-  return <Text style={props.style}>{props.children}</Text>;
+  return (
+    <Text style={props.style} numberOfLines={props.numberOfLines}>
+      {props.children}
+    </Text>
+  );
 };
 
 export default ADText;
