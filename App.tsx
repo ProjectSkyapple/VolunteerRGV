@@ -8,6 +8,7 @@ import textStyles from "./src/components/styles/textStyles";
 import Constants from "expo-constants";
 import ADText from "./src/components/ADText/ADText";
 import HomeScreen from "./src/components/screens/HomeScreen";
+import AuthenticationScreen from "./src/components/screens/AuthenticationScreen";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -97,7 +98,7 @@ export default function App() {
     </SafeAreaView>
   ); */
 
-  return <HomeScreen />;
+  return <AuthenticationScreen />;
 }
 
 const styles = StyleSheet.create({
