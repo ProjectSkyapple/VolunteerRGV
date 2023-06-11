@@ -2,7 +2,7 @@ import { Text, TextStyle } from "react-native";
 // import { useFonts } from "expo-font";
 
 interface ADTextProps {
-  children: string;
+  children?: string;
   style?: TextStyle | TextStyle[];
   numberOfLines?: number;
 }
