@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 const buttonStyles = StyleSheet.create({
   baseButton: {
     borderRadius: 100,
-    paddingHorizontal: 15,
-    paddingVertical: 9,
+    paddingHorizontal: 18,
+    paddingVertical: 15,
   },
   baseButtonText: {
     textAlign: "center",
