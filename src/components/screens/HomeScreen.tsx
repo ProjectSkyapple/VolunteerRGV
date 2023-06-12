@@ -1,54 +1,17 @@
-import {
-  FlatList,
-  ImageSourcePropType,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import screenStyles from "../styles/screenStyles";
 import ADText from "../ADText/ADText";
-import ADIBEntry from "../ADEntries/ADIBEntry";
-import textStyles from "../styles/textStyles";
 import { useState } from "react";
+import HomeSubscreen from "./HomeSubscreen";
+import { EOEvent } from "../../types/EOEvent";
 
-type ItemData = {
-  "Start Date": string;
-  Blurb: string;
-};
-
-const MOCK_DATA: ItemData[] = [
+const MOCK_DATA: EOEvent[] = [
   { "Start Date": "JUN 15", Blurb: "Event one" },
   { "Start Date": "JUN 16", Blurb: "Event two" },
   { "Start Date": "JUN 17", Blurb: "Event three" },
   { "Start Date": "JUN 18", Blurb: "Event four" },
 ];
-
-interface EOViewerEventEntryProps {
-  source?: ImageSourcePropType;
-  isoDate: string;
-  blurb: string;
-  onPress?: () => void;
-}
-
-const EOViewerEventEntry = (props: EOViewerEventEntryProps) => {
-  return (
-    <TouchableOpacity>
-      <ADIBEntry
-        source={{ uri: "https://reactjs.org/logo-og.png" }}
-        height={162}
-      >
-        <ADText>{props.isoDate}</ADText>
-        <ADText style={textStyles.mediumHeading} numberOfLines={3}>
-          {props.blurb}
-        </ADText>
-      </ADIBEntry>
-    </TouchableOpacity>
-  );
-};
 
 const HomeScreen = () => {
   const [feedTabTextStyle, setFeedTabTextStyle] = useState(
@@ -103,29 +66,7 @@ const HomeScreen = () => {
         </Pressable>
       </View>
 
-      <ScrollView
-        style={screenStyles.baseScreenScrollView}
-        contentContainerStyle={{ rowGap: 18 }}
-      >
-        <ADText
-          style={[{ textAlign: "center", margin: 18 }, textStyles.largeHeading]}
-        >
-          Your feed.
-        </ADText>
-
-        <FlatList
-          data={MOCK_DATA}
-          renderItem={({ item }) => (
-            <EOViewerEventEntry
-              source={{ uri: "https://reactjs.org/logo-og.png" }}
-              isoDate={item["Start Date"]}
-              blurb={item["Blurb"]}
-            />
-          )}
-          ItemSeparatorComponent={() => <View style={{ padding: 9 }} />}
-          /* TODO: ListEmptyComponent */
-        />
-      </ScrollView>
+      <HomeSubscreen type="feed" data={MOCK_DATA} />
 
       <StatusBar style="auto" />
     </SafeAreaView>
