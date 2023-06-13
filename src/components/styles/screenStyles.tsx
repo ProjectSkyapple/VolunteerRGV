@@ -6,7 +6,6 @@ const screenStyles = StyleSheet.create({
     backgroundColor: "#EEE",
     alignItems: "center",
     justifyContent: "center",
-    height: Dimensions.get("window").height,
   },
   baseScreenScrollView: {
     padding: 18,
