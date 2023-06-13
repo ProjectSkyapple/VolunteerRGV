@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { KeyboardAvoidingView, View } from "react-native";
+import { KeyboardAvoidingView, Text, View } from "react-native";
 import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
 import ADText from "../ADText/ADText";
@@ -9,7 +9,7 @@ import textStyles from "../styles/textStyles";
 import { useState } from "react";
 
 const AuthenticationScreen = () => {
-  const [signUpUIShown, setSignUpUIShown] = useState(true);
+  const [selectedSignUp, setSelectedSignUp] = useState(true);
 
   return (
     <KeyboardAvoidingView
@@ -18,69 +18,43 @@ const AuthenticationScreen = () => {
         { justifyContent: "space-evenly", padding: 18 },
       ]}
     >
-      {signUpUIShown && (
-        <ADText style={textStyles.largeHeading}>
-          Welcome! Let's create an account.
-        </ADText>
+      <ADText style={textStyles.largeHeading}>Check your messages.</ADText>
+
+      {selectedSignUp && (
+        <Text>
+          We sent a code to{" "}
+          <Text style={{ fontWeight: "600" }}>9565551212</Text>. Enter this code
+          below to officially create your account. Do not share this code with
+          anyone.
+        </Text>
       )}
-      {!signUpUIShown && (
-        <ADText style={textStyles.largeHeading}>Welcome back. Sign in.</ADText>
+      {!selectedSignUp && (
+        <Text>
+          To verify your identity, sign in with the code sent to{" "}
+          <Text style={{ fontWeight: "600" }}>9565551212</Text>. Do not share
+          this code with anyone.
+        </Text>
       )}
 
       <View style={{ rowGap: 18, width: "100%" }}>
-        {signUpUIShown && (
-          <ADTextInput labelText="Name" placeholder="Your Name" />
-        )}
-        {signUpUIShown && (
-          <ADTextInput
-            labelText="Email Address"
-            inputMode="email"
-            placeholder="someone@example.com"
-          />
-        )}
         <ADTextInput
-          labelText="Mobile Phone"
-          inputMode="tel"
-          maxLength={10}
-          placeholder="9565551212"
+          labelText="One-time passcode"
+          inputMode="numeric"
+          maxLength={6}
+          placeholder="123456"
         />
       </View>
 
-      {signUpUIShown && <ADPrimaryFilledButton text="Create account" />}
-
-      {signUpUIShown && (
-        <View
-          style={{
-            alignItems: "center",
-            rowGap: 18,
-            width: "100%",
-          }}
-        >
-          <ADText>Already have an account?</ADText>
-          <ADOutlinedButton
-            text="Sign in with an existing account"
-            onPress={() => setSignUpUIShown(false)}
-          />
-        </View>
-      )}
-
-      {!signUpUIShown && <ADPrimaryFilledButton text="Sign in" />}
-
-      {!signUpUIShown && (
-        <View
-          style={{
-            alignItems: "center",
-            rowGap: 18,
-            width: "100%",
-          }}
-        >
-          <ADText>Don't have an account?</ADText>
-          <ADOutlinedButton
-            text="Create an account"
-            onPress={() => setSignUpUIShown(true)}
-          />
-        </View>
-      )}
+      <View
+        style={{
+          alignItems: "center",
+          rowGap: 18,
+          width: "100%",
+        }}
+      >
+        <ADPrimaryFilledButton text="Verify code" />
+        <ADOutlinedButton text="Resend code" />
+      </View>
 
       <StatusBar style="auto" />
     </KeyboardAvoidingView>
