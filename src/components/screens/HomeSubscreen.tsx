@@ -12,16 +12,7 @@ interface HomeSubscreenProps {
 
 const HomeSubscreen = (props: HomeSubscreenProps) => {
   return (
-    <ScrollView
-      style={screenStyles.baseScreenScrollView}
-      contentContainerStyle={{ rowGap: 18 }}
-    >
-      <ADText
-        style={[{ textAlign: "center", margin: 18 }, textStyles.largeHeading]}
-      >
-        Your feed.
-      </ADText>
-
+    <View style={screenStyles.baseSubscreen}>
       <FlatList
         data={props.data}
         renderItem={({ item }) => (
@@ -33,8 +24,19 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
         )}
         ItemSeparatorComponent={() => <View style={{ padding: 9 }} />}
         /* TODO: ListEmptyComponent */
+        ListHeaderComponent={
+          <ADText
+            style={[
+              { textAlign: "center", marginVertical: 26, marginHorizontal: 18 },
+              textStyles.largeHeading,
+            ]}
+          >
+            Your feed.
+          </ADText>
+        }
+        contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 18 }}
       />
-    </ScrollView>
+    </View>
   );
 };
 
