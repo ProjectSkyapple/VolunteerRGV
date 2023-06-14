@@ -11,6 +11,7 @@ const MOCK_DATA: EOEvent[] = [
   { "Start Date": "JUN 16", Blurb: "Event two" },
   { "Start Date": "JUN 17", Blurb: "Event three" },
   { "Start Date": "JUN 18", Blurb: "Event four" },
+  { "Start Date": "JUN 18", Blurb: "Event four" },
 ];
 
 const HomeScreen = () => {

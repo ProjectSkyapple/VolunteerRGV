@@ -7,9 +7,12 @@ import ADTextInput from "../ADTextInputs/ADTextInput";
 import screenStyles from "../styles/screenStyles";
 import textStyles from "../styles/textStyles";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const AuthenticationScreen = () => {
+const VerifyCodeScreen = () => {
   const [selectedSignUp, setSelectedSignUp] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
     <KeyboardAvoidingView
@@ -52,7 +55,13 @@ const AuthenticationScreen = () => {
           width: "100%",
         }}
       >
-        <ADPrimaryFilledButton text="Verify code" />
+        <ADPrimaryFilledButton
+          text="Verify code"
+          onPress={() =>
+            // TODO: Firebase Authentication stuff
+            navigation.reset({ index: 1, routes: [{ name: "Home" }] })
+          }
+        />
         <ADOutlinedButton text="Resend code" />
       </View>
 
@@ -61,4 +70,4 @@ const AuthenticationScreen = () => {
   );
 };
 
-export default AuthenticationScreen;
+export default VerifyCodeScreen;
