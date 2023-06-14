@@ -3,7 +3,7 @@ import { Colors } from "../styles/colors";
 
 interface ADPrimaryFilledButtonProps {
   text: string;
-  onPress?: () => void;
+  onPress?: (...args: any[]) => void;
 }
 
 const ADPrimaryFilledButton = (props: ADPrimaryFilledButtonProps) => {

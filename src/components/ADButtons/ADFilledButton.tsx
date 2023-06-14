@@ -7,7 +7,7 @@ import ADText from "../ADText/ADText";
 interface ADFilledButtonProps {
   linearGradientColors: string[];
   text: string;
-  onPress?: () => void;
+  onPress?: (...args: any[]) => void;
 }
 
 const ADFilledButton = (props: ADFilledButtonProps) => {
