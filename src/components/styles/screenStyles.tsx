@@ -6,9 +6,14 @@ const screenStyles = StyleSheet.create({
     backgroundColor: "#EEE",
     alignItems: "center",
     justifyContent: "center",
+    height: Dimensions.get("window").height,
   },
   baseScreenScrollView: {
     padding: 18,
+    width: "100%",
+  },
+  baseSubscreen: {
+    flex: 1,
     width: "100%",
   },
 });

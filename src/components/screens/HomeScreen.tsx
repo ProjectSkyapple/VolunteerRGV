@@ -1,4 +1,10 @@
-import { Pressable, SafeAreaView, StyleSheet, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import screenStyles from "../styles/screenStyles";
 import ADText from "../ADText/ADText";
@@ -65,6 +71,7 @@ const HomeScreen = () => {
         >
           <ADText style={yourSharesTabTextStyle}>Your Shares</ADText>
         </Pressable>
+        <Button title="Sign out" />
       </View>
 
       <HomeSubscreen type="feed" data={MOCK_DATA} />
