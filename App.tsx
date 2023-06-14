@@ -1,7 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { Dimensions, View } from "react-native";
+import { View } from "react-native";
 import AuthenticationScreen from "./src/components/screens/AuthenticationScreen";
+import DetailsScreen from "./src/components/screens/DetailsScreen";
+import HomeScreen from "./src/components/screens/HomeScreen";
+import VerifyCodeScreen from "./src/components/screens/VerifyCodeScreen";
 import StatusBarArea from "./src/components/global/StatusBarArea";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
@@ -13,7 +19,21 @@ export default function App() {
       }}
     >
       <StatusBarArea />
-      <AuthenticationScreen />
+
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Authentication"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen
+            name="Authentication"
+            component={AuthenticationScreen}
+          />
+          <Stack.Screen name="Verify Code" component={VerifyCodeScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Details" component={DetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </View>
   );
 }
