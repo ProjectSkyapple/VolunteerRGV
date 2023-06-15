@@ -10,16 +10,14 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const authenticate = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  // TODO: Firebase Authentication stuff
-
-  navigation.navigate("Verify Code");
-};
-
 const AuthenticationScreen = () => {
   const [signUpUIShown, setSignUpUIShown] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  const authenticate = () => {
+    // TODO: Firebase Authentication stuff
+    navigation.navigate("Verify Code");
+  };
 
   return (
     <KeyboardAvoidingView
@@ -60,7 +58,7 @@ const AuthenticationScreen = () => {
         <ADPrimaryFilledButton
           text="Create account"
           onPress={() => {
-            authenticate;
+            authenticate();
           }}
         />
       )}
@@ -85,7 +83,7 @@ const AuthenticationScreen = () => {
         <ADPrimaryFilledButton
           text="Sign in"
           onPress={() => {
-            authenticate;
+            authenticate();
           }}
         />
       )}

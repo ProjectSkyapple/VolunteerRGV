@@ -27,7 +27,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
         ListHeaderComponent={
           <ADText
             style={[
-              { textAlign: "center", marginVertical: 26, marginHorizontal: 18 },
+              { textAlign: "center", marginVertical: 36, marginHorizontal: 18 },
               textStyles.largeHeading,
             ]}
           >
