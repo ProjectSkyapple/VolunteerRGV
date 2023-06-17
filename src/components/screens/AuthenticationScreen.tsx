@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { Alert, KeyboardAvoidingView, View } from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
 import ADText from "../ADText/ADText";
@@ -22,9 +23,10 @@ const AuthenticationScreen = () => {
   const [emailAddress, setEmailAddress] = useState("");
   const [mobilePhone, setMobilePhone] = useState("");
   const [password, setPassword] = useState("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={[
         screenStyles.baseScreen,
         { justifyContent: "space-evenly", padding: 18 },
@@ -70,16 +72,21 @@ const AuthenticationScreen = () => {
         />
       </View>
 
-      {signUpUIShown && (
+      {!isAuthenticating && signUpUIShown && (
         <ADPrimaryFilledButton
           text="Create account"
           onPress={() => {
+            setIsAuthenticating(true);
+
             createUserWithEmailAndPassword(auth, emailAddress, password)
               .then(() => {
                 // Signed in
+                setIsAuthenticating(false);
                 navigation.reset({ index: 0, routes: [{ name: "Home" }] });
               })
               .catch((error) => {
+                setIsAuthenticating(false);
+
                 const errorCode = error.code;
                 const errorMessage = error.message;
 
@@ -93,7 +100,7 @@ const AuthenticationScreen = () => {
         />
       )}
 
-      {signUpUIShown && (
+      {!isAuthenticating && signUpUIShown && (
         <View
           style={{
             alignItems: "center",
@@ -109,16 +116,21 @@ const AuthenticationScreen = () => {
         </View>
       )}
 
-      {!signUpUIShown && (
+      {!isAuthenticating && !signUpUIShown && (
         <ADPrimaryFilledButton
           text="Sign in"
           onPress={() => {
+            setIsAuthenticating(true);
+
             signInWithEmailAndPassword(auth, emailAddress, password)
               .then(() => {
                 // Signed in
+                setIsAuthenticating(false);
                 navigation.reset({ index: 0, routes: [{ name: "Home" }] });
               })
               .catch((error) => {
+                setIsAuthenticating(false);
+
                 const errorCode = error.code;
                 const errorMessage = error.message;
 
@@ -132,7 +144,7 @@ const AuthenticationScreen = () => {
         />
       )}
 
-      {!signUpUIShown && (
+      {!isAuthenticating && !signUpUIShown && (
         <View
           style={{
             alignItems: "center",
@@ -148,8 +160,10 @@ const AuthenticationScreen = () => {
         </View>
       )}
 
+      {isAuthenticating && <ActivityIndicator size="large" />}
+
       <StatusBar style="auto" />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 
