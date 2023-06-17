@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { KeyboardAvoidingView, View } from "react-native";
+import { Alert, KeyboardAvoidingView, View } from "react-native";
 import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
 import ADText from "../ADText/ADText";
@@ -9,15 +9,19 @@ import textStyles from "../styles/textStyles";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { auth } from "../../../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const AuthenticationScreen = () => {
   const [signUpUIShown, setSignUpUIShown] = useState(true);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-
-  const authenticate = () => {
-    // TODO: Firebase Authentication stuff
-    navigation.navigate("Verify Code");
-  };
+  const [name, setName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [mobilePhone, setMobilePhone] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <KeyboardAvoidingView
@@ -37,20 +41,32 @@ const AuthenticationScreen = () => {
 
       <View style={{ rowGap: 18, width: "100%" }}>
         {signUpUIShown && (
-          <ADTextInput labelText="Name" placeholder="Your Name" />
-        )}
-        {signUpUIShown && (
           <ADTextInput
-            labelText="Email Address"
-            inputMode="email"
-            placeholder="someone@example.com"
+            labelText="Name"
+            placeholder="Your Name"
+            onChangeText={(newText) => setName(newText)}
           />
         )}
         <ADTextInput
-          labelText="Mobile Phone"
-          inputMode="tel"
-          maxLength={10}
-          placeholder="9565551212"
+          labelText="Email Address"
+          inputMode="email"
+          placeholder="someone@example.com"
+          onChangeText={(newText) => setEmailAddress(newText)}
+        />
+        {signUpUIShown && (
+          <ADTextInput
+            labelText="Mobile Phone"
+            inputMode="tel"
+            maxLength={10}
+            placeholder="9565551212"
+            onChangeText={(newText) => setMobilePhone(newText)}
+          />
+        )}
+        <ADTextInput
+          labelText="Password"
+          inputMode="text"
+          secureTextEntry
+          onChangeText={(newText) => setPassword(newText)}
         />
       </View>
 
@@ -58,7 +74,21 @@ const AuthenticationScreen = () => {
         <ADPrimaryFilledButton
           text="Create account"
           onPress={() => {
-            authenticate();
+            createUserWithEmailAndPassword(auth, emailAddress, password)
+              .then(() => {
+                // Signed in
+                navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                Alert.alert(
+                  "Authentication Error",
+                  errorMessage + " (Firebase error code " + errorCode + ")",
+                  [{ text: "Dismiss" }]
+                );
+              });
           }}
         />
       )}
@@ -83,7 +113,21 @@ const AuthenticationScreen = () => {
         <ADPrimaryFilledButton
           text="Sign in"
           onPress={() => {
-            authenticate();
+            signInWithEmailAndPassword(auth, emailAddress, password)
+              .then(() => {
+                // Signed in
+                navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+
+                Alert.alert(
+                  "Authentication Error",
+                  errorMessage + " (Firebase error code " + errorCode + ")",
+                  [{ text: "Dismiss" }]
+                );
+              });
           }}
         />
       )}
