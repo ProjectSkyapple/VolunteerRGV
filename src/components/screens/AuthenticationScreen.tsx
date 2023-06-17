@@ -15,6 +15,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { Colors } from "../styles/colors";
 
 const AuthenticationScreen = () => {
   const [signUpUIShown, setSignUpUIShown] = useState(true);
@@ -26,143 +27,149 @@ const AuthenticationScreen = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   return (
-    <KeyboardAwareScrollView
-      style={[
-        screenStyles.baseScreen,
-        { justifyContent: "space-evenly", padding: 18 },
-      ]}
-    >
-      {signUpUIShown && (
-        <ADText style={textStyles.largeHeading}>
-          Welcome! Let's create an account.
-        </ADText>
-      )}
-      {!signUpUIShown && (
-        <ADText style={textStyles.largeHeading}>Welcome back. Sign in.</ADText>
-      )}
+    <KeyboardAwareScrollView>
+      <View
+        style={[
+          screenStyles.baseScreen,
+          { justifyContent: "space-evenly", padding: 18 },
+        ]}
+      >
+        {signUpUIShown && (
+          <ADText style={textStyles.largeHeading}>
+            Welcome! Let's create an account.
+          </ADText>
+        )}
+        {!signUpUIShown && (
+          <ADText style={textStyles.largeHeading}>
+            Welcome back. Sign in.
+          </ADText>
+        )}
 
-      <View style={{ rowGap: 18, width: "100%" }}>
-        {signUpUIShown && (
+        <View style={{ rowGap: 18, width: "100%" }}>
+          {signUpUIShown && (
+            <ADTextInput
+              labelText="Name"
+              placeholder="Your Name"
+              onChangeText={(newText) => setName(newText)}
+            />
+          )}
           <ADTextInput
-            labelText="Name"
-            placeholder="Your Name"
-            onChangeText={(newText) => setName(newText)}
+            labelText="Email Address"
+            inputMode="email"
+            placeholder="someone@example.com"
+            onChangeText={(newText) => setEmailAddress(newText)}
+          />
+          {signUpUIShown && (
+            <ADTextInput
+              labelText="Mobile Phone"
+              inputMode="tel"
+              maxLength={10}
+              placeholder="9565551212"
+              onChangeText={(newText) => setMobilePhone(newText)}
+            />
+          )}
+          <ADTextInput
+            labelText="Password"
+            inputMode="text"
+            secureTextEntry
+            onChangeText={(newText) => setPassword(newText)}
+          />
+        </View>
+
+        {!isAuthenticating && signUpUIShown && (
+          <ADPrimaryFilledButton
+            text="Create account"
+            onPress={() => {
+              setIsAuthenticating(true);
+
+              createUserWithEmailAndPassword(auth, emailAddress, password)
+                .then(() => {
+                  // Signed in
+                  setIsAuthenticating(false);
+                  navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+                })
+                .catch((error) => {
+                  setIsAuthenticating(false);
+
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+
+                  Alert.alert(
+                    "Authentication Error",
+                    errorMessage + " (Firebase error code " + errorCode + ")",
+                    [{ text: "Dismiss" }]
+                  );
+                });
+            }}
           />
         )}
-        <ADTextInput
-          labelText="Email Address"
-          inputMode="email"
-          placeholder="someone@example.com"
-          onChangeText={(newText) => setEmailAddress(newText)}
-        />
-        {signUpUIShown && (
-          <ADTextInput
-            labelText="Mobile Phone"
-            inputMode="tel"
-            maxLength={10}
-            placeholder="9565551212"
-            onChangeText={(newText) => setMobilePhone(newText)}
+
+        {!isAuthenticating && signUpUIShown && (
+          <View
+            style={{
+              alignItems: "center",
+              rowGap: 18,
+              width: "100%",
+            }}
+          >
+            <ADText>Already have an account?</ADText>
+            <ADOutlinedButton
+              text="Sign in with an existing account"
+              onPress={() => setSignUpUIShown(false)}
+            />
+          </View>
+        )}
+
+        {!isAuthenticating && !signUpUIShown && (
+          <ADPrimaryFilledButton
+            text="Sign in"
+            onPress={() => {
+              setIsAuthenticating(true);
+
+              signInWithEmailAndPassword(auth, emailAddress, password)
+                .then(() => {
+                  // Signed in
+                  setIsAuthenticating(false);
+                  navigation.reset({ index: 0, routes: [{ name: "Home" }] });
+                })
+                .catch((error) => {
+                  setIsAuthenticating(false);
+
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+
+                  Alert.alert(
+                    "Authentication Error",
+                    errorMessage + " (Firebase error code " + errorCode + ")",
+                    [{ text: "Dismiss" }]
+                  );
+                });
+            }}
           />
         )}
-        <ADTextInput
-          labelText="Password"
-          inputMode="text"
-          secureTextEntry
-          onChangeText={(newText) => setPassword(newText)}
-        />
+
+        {!isAuthenticating && !signUpUIShown && (
+          <View
+            style={{
+              alignItems: "center",
+              rowGap: 18,
+              width: "100%",
+            }}
+          >
+            <ADText>Don't have an account?</ADText>
+            <ADOutlinedButton
+              text="Create an account"
+              onPress={() => setSignUpUIShown(true)}
+            />
+          </View>
+        )}
+
+        {isAuthenticating && (
+          <ActivityIndicator color={Colors.primaryColor} size="large" />
+        )}
+
+        <StatusBar style="auto" />
       </View>
-
-      {!isAuthenticating && signUpUIShown && (
-        <ADPrimaryFilledButton
-          text="Create account"
-          onPress={() => {
-            setIsAuthenticating(true);
-
-            createUserWithEmailAndPassword(auth, emailAddress, password)
-              .then(() => {
-                // Signed in
-                setIsAuthenticating(false);
-                navigation.reset({ index: 0, routes: [{ name: "Home" }] });
-              })
-              .catch((error) => {
-                setIsAuthenticating(false);
-
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                Alert.alert(
-                  "Authentication Error",
-                  errorMessage + " (Firebase error code " + errorCode + ")",
-                  [{ text: "Dismiss" }]
-                );
-              });
-          }}
-        />
-      )}
-
-      {!isAuthenticating && signUpUIShown && (
-        <View
-          style={{
-            alignItems: "center",
-            rowGap: 18,
-            width: "100%",
-          }}
-        >
-          <ADText>Already have an account?</ADText>
-          <ADOutlinedButton
-            text="Sign in with an existing account"
-            onPress={() => setSignUpUIShown(false)}
-          />
-        </View>
-      )}
-
-      {!isAuthenticating && !signUpUIShown && (
-        <ADPrimaryFilledButton
-          text="Sign in"
-          onPress={() => {
-            setIsAuthenticating(true);
-
-            signInWithEmailAndPassword(auth, emailAddress, password)
-              .then(() => {
-                // Signed in
-                setIsAuthenticating(false);
-                navigation.reset({ index: 0, routes: [{ name: "Home" }] });
-              })
-              .catch((error) => {
-                setIsAuthenticating(false);
-
-                const errorCode = error.code;
-                const errorMessage = error.message;
-
-                Alert.alert(
-                  "Authentication Error",
-                  errorMessage + " (Firebase error code " + errorCode + ")",
-                  [{ text: "Dismiss" }]
-                );
-              });
-          }}
-        />
-      )}
-
-      {!isAuthenticating && !signUpUIShown && (
-        <View
-          style={{
-            alignItems: "center",
-            rowGap: 18,
-            width: "100%",
-          }}
-        >
-          <ADText>Don't have an account?</ADText>
-          <ADOutlinedButton
-            text="Create an account"
-            onPress={() => setSignUpUIShown(true)}
-          />
-        </View>
-      )}
-
-      {isAuthenticating && <ActivityIndicator size="large" />}
-
-      <StatusBar style="auto" />
     </KeyboardAwareScrollView>
   );
 };
