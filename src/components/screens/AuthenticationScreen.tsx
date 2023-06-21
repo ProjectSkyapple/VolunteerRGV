@@ -10,12 +10,16 @@ import textStyles from "../styles/textStyles";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { auth } from "../../../firebaseConfig";
+import { auth, firestore } from "../../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Colors } from "../styles/colors";
+import { airtableBase } from "../../../airtableConfig";
+import { FieldSet, Records } from "airtable";
+import * as SecureStore from "expo-secure-store";
 
 const AuthenticationScreen = () => {
   const [signUpUIShown, setSignUpUIShown] = useState(true);
@@ -25,6 +29,87 @@ const AuthenticationScreen = () => {
   const [mobilePhone, setMobilePhone] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [airtableUserRecordIdState, storeAirtableUserRecordIdState] =
+    useState("");
+
+  const createAirtableUserRecord = (
+    mobilePhone: string,
+    name: string,
+    emailAddress: string
+  ) => {
+    return new Promise(
+      (resolve: (value: Records<FieldSet>) => void, reject) => {
+        airtableBase("Users").create(
+          [
+            {
+              fields: {
+                Phone: mobilePhone,
+                Name: name,
+                "Email Address": emailAddress,
+                "Account Status": "Opened",
+              },
+            },
+          ],
+          (err, records) => {
+            if (err) {
+              reject(err);
+            } else if (records) {
+              resolve(records);
+            }
+          }
+        );
+      }
+    );
+  };
+
+  const storeAirtableUserRecordIdLocallyDuringSignUp = async (
+    records: Records<FieldSet>
+  ) => {
+    let recordId: string = await new Promise(
+      (resolve: (value: string) => void) => {
+        records.forEach((record) => {
+          storeAirtableUserRecordIdState(record.getId());
+          resolve(record.getId());
+        });
+      }
+    );
+
+    return SecureStore.setItemAsync("airtableUserRecordId", recordId);
+  };
+
+  const storeAirtableUserRecordIdOnFirestore = (
+    uid: string,
+    airtableUserRecordId: string
+  ) => {
+    return setDoc(doc(firestore, "users", uid), {
+      airtableUserRecordId: airtableUserRecordId,
+    });
+  };
+
+  const getAndStoreAirtableUserRecordIdLocallyDuringSignIn = async (
+    uid: string
+  ) => {
+    const firestoreUserDocRef = doc(firestore, "users", uid);
+    const firestoreUserDocSnap = await getDoc(firestoreUserDocRef);
+
+    if (firestoreUserDocSnap.exists()) {
+      return SecureStore.setItemAsync(
+        "airtableUserRecordId",
+        firestoreUserDocSnap.data().airtableUserRecordId
+      );
+    } else {
+      // .data() is undefined
+      return new Promise((reject: (value: string) => void) => {
+        reject(
+          "Airtable user record ID could not be found on Firebase Cloud Firestore."
+        );
+      });
+    }
+  };
+
+  const showErrorAlert = (errorType: string, errorMessage: string) => {
+    Alert.alert(`${errorType} Error`, errorMessage, [{ text: "Dismiss" }]);
+  };
 
   return (
     <KeyboardAwareScrollView>
@@ -82,22 +167,33 @@ const AuthenticationScreen = () => {
             onPress={() => {
               setIsAuthenticating(true);
 
-              createUserWithEmailAndPassword(auth, emailAddress, password)
+              createAirtableUserRecord(mobilePhone, name, emailAddress)
+                .then((records) => {
+                  return storeAirtableUserRecordIdLocallyDuringSignUp(records);
+                })
                 .then(() => {
-                  // Signed in
+                  return createUserWithEmailAndPassword(
+                    auth,
+                    emailAddress,
+                    password
+                  );
+                })
+                .then((userCredential) => {
+                  // Signed in on Firebase Authentication
+                  return storeAirtableUserRecordIdOnFirestore(
+                    userCredential.user.uid,
+                    airtableUserRecordIdState
+                  );
+                })
+                .then(() => {
                   setIsAuthenticating(false);
                   navigation.reset({ index: 0, routes: [{ name: "Home" }] });
                 })
                 .catch((error) => {
                   setIsAuthenticating(false);
-
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-
-                  Alert.alert(
-                    "Authentication Error",
-                    errorMessage + " (Firebase error code " + errorCode + ")",
-                    [{ text: "Dismiss" }]
+                  showErrorAlert(
+                    "Authentication",
+                    `We couldn't authenticate your account. ${error as string}`
                   );
                 });
             }}
@@ -127,6 +223,11 @@ const AuthenticationScreen = () => {
               setIsAuthenticating(true);
 
               signInWithEmailAndPassword(auth, emailAddress, password)
+                .then((userCredential) => {
+                  return getAndStoreAirtableUserRecordIdLocallyDuringSignIn(
+                    userCredential.user.uid
+                  );
+                })
                 .then(() => {
                   // Signed in
                   setIsAuthenticating(false);
@@ -134,14 +235,9 @@ const AuthenticationScreen = () => {
                 })
                 .catch((error) => {
                   setIsAuthenticating(false);
-
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-
-                  Alert.alert(
-                    "Authentication Error",
-                    errorMessage + " (Firebase error code " + errorCode + ")",
-                    [{ text: "Dismiss" }]
+                  showErrorAlert(
+                    "Authentication",
+                    `We couldn't sign you in. ${error as string}`
                   );
                 });
             }}

@@ -1,6 +1,7 @@
 // Import functions from SDKs and APIs needed
 import { initializeApp } from "firebase/app";
 import { initializeAuth, reactNativeLocalPersistence } from "firebase/auth";
+import { initializeFirestore } from "firebase/firestore";
 import {
   FIREBASE_API_KEY,
   FIREBASE_PROJECT_ID,
@@ -25,3 +26,5 @@ export const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
   persistence: reactNativeLocalPersistence,
 });
+
+export const firestore = initializeFirestore(app);

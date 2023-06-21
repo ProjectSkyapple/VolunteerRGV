@@ -6,4 +6,4 @@ Airtable.configure({
   apiKey: AIRTABLE_PERSONAL_ACCESS_TOKEN,
 });
 
-export const base = Airtable.base(AIRTABLE_BASE_ID);
+export const airtableBase = Airtable.base(AIRTABLE_BASE_ID);
