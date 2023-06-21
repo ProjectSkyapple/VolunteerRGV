@@ -7,7 +7,7 @@ import ADText from "../ADText/ADText";
 import ADTextInput from "../ADTextInputs/ADTextInput";
 import screenStyles from "../styles/screenStyles";
 import textStyles from "../styles/textStyles";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { auth, firestore } from "../../../firebaseConfig";
@@ -29,8 +29,7 @@ const AuthenticationScreen = () => {
   const [mobilePhone, setMobilePhone] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [airtableUserRecordIdState, storeAirtableUserRecordIdState] =
-    useState("");
+  const airtableUserRecordIdRef = useRef("");
 
   const createAirtableUserRecord = (
     mobilePhone: string,
@@ -68,7 +67,8 @@ const AuthenticationScreen = () => {
     let recordId: string = await new Promise(
       (resolve: (value: string) => void) => {
         records.forEach((record) => {
-          storeAirtableUserRecordIdState(record.getId());
+          console.log("This is " + record.getId());
+          airtableUserRecordIdRef.current = record.getId();
           resolve(record.getId());
         });
       }
@@ -182,7 +182,7 @@ const AuthenticationScreen = () => {
                   // Signed in on Firebase Authentication
                   return storeAirtableUserRecordIdOnFirestore(
                     userCredential.user.uid,
-                    airtableUserRecordIdState
+                    airtableUserRecordIdRef.current
                   );
                 })
                 .then(() => {
