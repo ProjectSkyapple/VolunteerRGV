@@ -10,15 +10,6 @@ import screenStyles from "../styles/screenStyles";
 import ADText from "../ADText/ADText";
 import { useState } from "react";
 import HomeSubscreen from "./HomeSubscreen";
-import { EOEvent } from "../../types/EOEvent";
-
-const MOCK_DATA: EOEvent[] = [
-  { "Start Date": "JUN 15", Blurb: "Event one" },
-  { "Start Date": "JUN 16", Blurb: "Event two" },
-  { "Start Date": "JUN 17", Blurb: "Event three" },
-  { "Start Date": "JUN 18", Blurb: "Event four" },
-  { "Start Date": "JUN 18", Blurb: "Event four" },
-];
 
 const HomeScreen = () => {
   const [feedTabTextStyle, setFeedTabTextStyle] = useState(
@@ -74,7 +65,7 @@ const HomeScreen = () => {
         <Button title="Sign out" />
       </View>
 
-      <HomeSubscreen type="feed" data={MOCK_DATA} />
+      <HomeSubscreen type="feed" />
 
       <StatusBar style="auto" />
     </SafeAreaView>

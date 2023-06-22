@@ -1,3 +1,7 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "typeRoots": ["./types"]
 }
