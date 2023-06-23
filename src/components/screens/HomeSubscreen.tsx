@@ -19,7 +19,7 @@ interface HomeSubscreenProps {
 }
 
 const HomeSubscreen = (props: HomeSubscreenProps) => {
-  const [eventsData, setEventsData] = useState([{}]);
+  const [eventsData, setEventsData] = useState<EOEvent[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(true);
 
   const fetchEvents = async () => {
@@ -54,7 +54,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
         data={eventsData}
         renderItem={({ item }) => (
           <EOViewerEventEntry
-            source={require(`../../../assets/${item["fields"]["Image Background"]}`)}
+            source={require("../../../assets/1.jpg")}
             isoDate={item["fields"]["Starts"]}
             blurb={item["fields"]["Blurb"]}
           />
