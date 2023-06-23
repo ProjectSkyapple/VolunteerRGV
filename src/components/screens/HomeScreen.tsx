@@ -1,8 +1,8 @@
 import {
-  Button,
   Pressable,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
@@ -10,6 +10,7 @@ import screenStyles from "../styles/screenStyles";
 import ADText from "../ADText/ADText";
 import { useState } from "react";
 import HomeSubscreen from "./HomeSubscreen";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const HomeScreen = () => {
   const [feedTabTextStyle, setFeedTabTextStyle] = useState(
@@ -41,28 +42,33 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={screenStyles.baseScreen}>
       <View style={homeScreenStyles.customTTBView}>
-        <Pressable
-          onPress={() => {
-            selectCustomTTBTab("Feed");
-          }}
-        >
-          <ADText style={feedTabTextStyle}>Feed</ADText>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            selectCustomTTBTab("Following");
-          }}
-        >
-          <ADText style={followingTabTextStyle}>Following</ADText>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            selectCustomTTBTab("Your Shares");
-          }}
-        >
-          <ADText style={yourSharesTabTextStyle}>Your Shares</ADText>
-        </Pressable>
-        <Button title="Sign out" />
+        <View style={{ flex: 1, flexDirection: "row", columnGap: 18 }}>
+          <Pressable
+            onPress={() => {
+              selectCustomTTBTab("Feed");
+            }}
+          >
+            <ADText style={feedTabTextStyle}>Feed</ADText>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              selectCustomTTBTab("Following");
+            }}
+          >
+            <ADText style={followingTabTextStyle}>Following</ADText>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              selectCustomTTBTab("Your Shares");
+            }}
+          >
+            <ADText style={yourSharesTabTextStyle}>Your Shares</ADText>
+          </Pressable>
+        </View>
+
+        <TouchableOpacity>
+          <Ionicons name="person-circle-outline" size={32} />
+        </TouchableOpacity>
       </View>
 
       <HomeSubscreen type="feed" />
@@ -79,16 +85,19 @@ const homeScreenStyles = StyleSheet.create({
     columnGap: 18,
     paddingHorizontal: 18,
     paddingTop: 18,
+    alignItems: "center",
   },
   selectedCustomTopTabText: {
     paddingVertical: 6,
     fontWeight: "600",
-    borderBottomWidth: 3,
+    fontSize: 16,
+    borderBottomWidth: 0,
     opacity: 1,
   },
   unselectedCustomTopTabText: {
     paddingVertical: 6,
     fontWeight: "600",
+    fontSize: 16,
     borderBottomWidth: 0,
     opacity: 0.33,
   },
