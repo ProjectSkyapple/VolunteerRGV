@@ -88,14 +88,14 @@ const homeScreenStyles = StyleSheet.create({
     alignItems: "center",
   },
   selectedCustomTopTabText: {
-    paddingVertical: 4,
+    paddingVertical: 6,
     fontWeight: "600",
     fontSize: 16,
     borderBottomWidth: 2.5,
     opacity: 1,
   },
   unselectedCustomTopTabText: {
-    paddingVertical: 4,
+    paddingVertical: 6,
     fontWeight: "600",
     fontSize: 16,
     borderBottomWidth: 0,
