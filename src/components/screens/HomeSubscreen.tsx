@@ -53,11 +53,43 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
       <FlatList
         data={eventsData}
         renderItem={({ item }) => (
-          <EOViewerEventEntry
-            source={require("../../../assets/1.jpg")}
-            isoDate={item["fields"]["Starts"]}
-            blurb={item["fields"]["Blurb"]}
-          />
+          <View>
+            {item["fields"]["Image Background"] === "1" && (
+              <EOViewerEventEntry
+                source={require("../../../assets/1.jpg")}
+                isoDate={item["fields"]["Starts"]}
+                blurb={item["fields"]["Blurb"]}
+              />
+            )}
+            {item["fields"]["Image Background"] === "2" && (
+              <EOViewerEventEntry
+                source={require("../../../assets/2.jpg")}
+                isoDate={item["fields"]["Starts"]}
+                blurb={item["fields"]["Blurb"]}
+              />
+            )}
+            {item["fields"]["Image Background"] === "3" && (
+              <EOViewerEventEntry
+                source={require("../../../assets/3.jpg")}
+                isoDate={item["fields"]["Starts"]}
+                blurb={item["fields"]["Blurb"]}
+              />
+            )}
+            {item["fields"]["Image Background"] === "4" && (
+              <EOViewerEventEntry
+                source={require("../../../assets/4.jpg")}
+                isoDate={item["fields"]["Starts"]}
+                blurb={item["fields"]["Blurb"]}
+              />
+            )}
+            {item["fields"]["Image Background"] === "5" && (
+              <EOViewerEventEntry
+                source={require("../../../assets/5.jpg")}
+                isoDate={item["fields"]["Starts"]}
+                blurb={item["fields"]["Blurb"]}
+              />
+            )}
+          </View>
         )}
         ItemSeparatorComponent={() => <View style={{ padding: 9 }} />}
         /* TODO: ListEmptyComponent */

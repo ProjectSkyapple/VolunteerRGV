@@ -4,20 +4,23 @@ import ADIBEntry from "../ADEntries/ADIBEntry";
 import textStyles from "../styles/textStyles";
 
 interface EOViewerEventEntryProps {
-  source?: ImageSourcePropType;
+  source: ImageSourcePropType;
   isoDate: string;
   blurb: string;
   onPress?: () => void;
 }
 
 const EOViewerEventEntry = (props: EOViewerEventEntryProps) => {
+  let startDateObject = new Date(props.isoDate);
+  let startDateShortString = startDateObject
+    .toDateString()
+    .substring(4, 10)
+    .toUpperCase();
+
   return (
     <TouchableOpacity>
-      <ADIBEntry
-        source={{ uri: "https://reactjs.org/logo-og.png" }}
-        height={162}
-      >
-        <ADText>{props.isoDate}</ADText>
+      <ADIBEntry source={props.source} height={162}>
+        <ADText>{startDateShortString}</ADText>
         <ADText style={textStyles.mediumHeading} numberOfLines={3}>
           {props.blurb}
         </ADText>
