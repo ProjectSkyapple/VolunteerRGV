@@ -7,6 +7,8 @@ import { EOEvent } from "../../types/EOEvent";
 import { useEffect, useState } from "react";
 import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
 import * as SecureStore from "expo-secure-store";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 // Return user's Airtable Feed
 const returnAirtableEventsListUrl = (sharedBy: string) => {
@@ -21,6 +23,7 @@ interface HomeSubscreenProps {
 const HomeSubscreen = (props: HomeSubscreenProps) => {
   const [eventsData, setEventsData] = useState<EOEvent[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(true);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const fetchEvents = async () => {
     let airtableUserRecordId = await SecureStore.getItemAsync(
@@ -59,6 +62,12 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 source={require("../../../assets/1.jpg")}
                 isoDate={item["fields"]["Starts"]}
                 blurb={item["fields"]["Blurb"]}
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    eventsList: "Feed",
+                    details: item,
+                  });
+                }}
               />
             )}
             {item["fields"]["Image Background"] === "2" && (
@@ -66,6 +75,12 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 source={require("../../../assets/2.jpg")}
                 isoDate={item["fields"]["Starts"]}
                 blurb={item["fields"]["Blurb"]}
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    eventsList: "Feed",
+                    details: item,
+                  });
+                }}
               />
             )}
             {item["fields"]["Image Background"] === "3" && (
@@ -73,6 +88,12 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 source={require("../../../assets/3.jpg")}
                 isoDate={item["fields"]["Starts"]}
                 blurb={item["fields"]["Blurb"]}
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    eventsList: "Feed",
+                    details: item,
+                  });
+                }}
               />
             )}
             {item["fields"]["Image Background"] === "4" && (
@@ -80,6 +101,12 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 source={require("../../../assets/4.jpg")}
                 isoDate={item["fields"]["Starts"]}
                 blurb={item["fields"]["Blurb"]}
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    eventsList: "Feed",
+                    details: item,
+                  });
+                }}
               />
             )}
             {item["fields"]["Image Background"] === "5" && (
@@ -87,6 +114,12 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 source={require("../../../assets/5.jpg")}
                 isoDate={item["fields"]["Starts"]}
                 blurb={item["fields"]["Blurb"]}
+                onPress={() => {
+                  navigation.navigate("Details", {
+                    eventsList: "Feed",
+                    details: item,
+                  });
+                }}
               />
             )}
           </View>
