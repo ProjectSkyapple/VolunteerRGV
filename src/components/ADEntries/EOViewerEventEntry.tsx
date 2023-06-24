@@ -18,7 +18,7 @@ const EOViewerEventEntry = (props: EOViewerEventEntryProps) => {
     .toUpperCase();
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={props.onPress}>
       <ADIBEntry source={props.source} height={162}>
         <ADText>{startDateShortString}</ADText>
         <ADText style={textStyles.mediumHeading} numberOfLines={3}>
