@@ -4,10 +4,12 @@ import DetailsScreen from "./src/components/screens/DetailsScreen";
 import HomeScreen from "./src/components/screens/HomeScreen";
 import StatusBarArea from "./src/components/global/StatusBarArea";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Airtable from "airtable";
+import { createStackNavigator } from "@react-navigation/stack";
+import "react-native-gesture-handler";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
+
+const noHeaderScreen = { headerShown: false };
 
 export default function App() {
   return (
@@ -23,13 +25,25 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Authentication"
-          screenOptions={{ headerShown: false }}
+          screenOptions={{
+            headerStatusBarHeight: 0,
+            headerShadowVisible: false,
+            headerTintColor: "#000",
+            headerStyle: {
+              backgroundColor: "#EEE",
+            },
+          }}
         >
           <Stack.Screen
             name="Authentication"
             component={AuthenticationScreen}
+            options={noHeaderScreen}
           />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={noHeaderScreen}
+          />
           <Stack.Screen name="Details" component={DetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
