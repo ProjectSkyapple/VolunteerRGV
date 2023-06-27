@@ -10,6 +10,14 @@ import ADText from "../ADText/ADText";
 import HomeScreen from "../screens/HomeScreen";
 import AuthenticationScreen from "../screens/AuthenticationScreen";
 import screenStyles from "../styles/screenStyles";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { EOEvent } from "../../types/EOEvent";
+import {
+  requireImageBackground,
+  toADHourMinuteTimeString,
+  toADMonthDayDateString,
+} from "../../functions/functions";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -33,28 +41,44 @@ const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
   );
 };
 
+type RoutesParamList = {
+  Details: {
+    eventsList: string;
+    details: EOEvent;
+  };
+};
+
 export default function DetailsScreen() {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+  const route = useRoute<RouteProp<RoutesParamList, "Details">>();
+
+  const { eventsList, details } = route.params;
+
+  const startDateShortString = toADMonthDayDateString(details.fields.Starts);
+  const startTimeShortString = toADHourMinuteTimeString(details.fields.Starts);
+  const endDateShortString = toADMonthDayDateString(details.fields.Ends);
+  const endTimeShortString = toADHourMinuteTimeString(details.fields.Ends);
+
   return (
     <SafeAreaView style={screenStyles.baseScreen}>
-      <View
-        style={{
-          height: Constants.statusBarHeight,
-        }}
-      />
-
       <ScrollView
         style={screenStyles.baseScreenScrollView}
-        contentContainerStyle={{ rowGap: 18 }}
+        contentContainerStyle={[
+          { rowGap: 18 },
+          screenStyles.baseScreenScrollViewContentContainer,
+        ]}
       >
         <View>
           <ADIBEntry
-            source={{ uri: "https://reactjs.org/logo-og.png" }}
+            source={requireImageBackground(details.fields["Image Background"])}
             height={300}
           >
             <ADText style={[{ textAlign: "center" }, textStyles.mediumHeading]}>
-              This is a short description of the event
+              {details.fields.Blurb}
             </ADText>
-            <ADText style={{ textAlign: "center" }}>Host</ADText>
+            <ADText style={{ textAlign: "center" }}>
+              {details.fields.Host}
+            </ADText>
           </ADIBEntry>
 
           <View style={styles.dateAndTime}>
@@ -67,32 +91,44 @@ export default function DetailsScreen() {
               }}
             />
 
-            <ADVerticalDTStack dateText="MAY 23" timeText="9:00 AM" />
-
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                columnGap: 15,
-                alignItems: "center",
-              }}
-            >
-              <ADVerticalDTStack dateText="MAY 23" timeText="9:00 AM" />
-              <ADText>to</ADText>
-              <ADVerticalDTStack dateText="MAY 24" timeText="10:30 AM" />
-            </View>
+            {startDateShortString === endDateShortString ? (
+              <ADVerticalDTStack
+                dateText={startDateShortString}
+                timeText={`${startTimeShortString} – ${endTimeShortString}`}
+              />
+            ) : (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  columnGap: 15,
+                  alignItems: "center",
+                }}
+              >
+                <ADVerticalDTStack
+                  dateText={startDateShortString}
+                  timeText={startTimeShortString}
+                />
+                <ADText>to</ADText>
+                <ADVerticalDTStack
+                  dateText={endDateShortString}
+                  timeText={endTimeShortString}
+                />
+              </View>
+            )}
           </View>
         </View>
 
-        <ADHPCard heading="Location" paragraph="Location" />
+        <ADHPCard heading="Location" paragraph={details.fields.Location} />
 
-        <ADHPCard
-          heading="Summary"
-          paragraph="This is a summary about the event."
-        />
+        <ADHPCard heading="Summary" paragraph={details.fields.Summary} />
 
-        <ADPrimaryFilledButton text="Register" onPress={() => {}} />
-        <ADDangerFilledButton text="Unregister" onPress={() => {}} />
+        {eventsList === "feed" && (
+          <ADPrimaryFilledButton text="Follow" onPress={() => {}} />
+        )}
+        {eventsList === "following" && (
+          <ADDangerFilledButton text="Unfollow" onPress={() => {}} />
+        )}
       </ScrollView>
 
       <StatusBar style="auto" />

@@ -10,8 +10,10 @@ const screenStyles = StyleSheet.create({
     width: Dimensions.get("window").width,
   },
   baseScreenScrollView: {
-    padding: 18,
     width: "100%",
+  },
+  baseScreenScrollViewContentContainer: {
+    padding: 18,
   },
   baseSubscreen: {
     flex: 1,

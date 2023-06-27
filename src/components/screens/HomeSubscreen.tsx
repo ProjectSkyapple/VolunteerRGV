@@ -64,7 +64,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
-                    eventsList: "Feed",
+                    eventsList: props.type,
                     details: item,
                   });
                 }}
@@ -77,7 +77,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
-                    eventsList: "Feed",
+                    eventsList: props.type,
                     details: item,
                   });
                 }}
@@ -90,7 +90,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
-                    eventsList: "Feed",
+                    eventsList: props.type,
                     details: item,
                   });
                 }}
@@ -103,7 +103,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
-                    eventsList: "Feed",
+                    eventsList: props.type,
                     details: item,
                   });
                 }}
@@ -116,7 +116,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
-                    eventsList: "Feed",
+                    eventsList: props.type,
                     details: item,
                   });
                 }}

@@ -2,6 +2,7 @@ import { ImageSourcePropType, TouchableOpacity } from "react-native";
 import ADText from "../ADText/ADText";
 import ADIBEntry from "../ADEntries/ADIBEntry";
 import textStyles from "../styles/textStyles";
+import { toADMonthDayDateString } from "../../functions/functions";
 
 interface EOViewerEventEntryProps {
   source: ImageSourcePropType;
@@ -11,16 +12,10 @@ interface EOViewerEventEntryProps {
 }
 
 const EOViewerEventEntry = (props: EOViewerEventEntryProps) => {
-  let startDateObject = new Date(props.isoDate);
-  let startDateShortString = startDateObject
-    .toDateString()
-    .substring(4, 10)
-    .toUpperCase();
-
   return (
     <TouchableOpacity onPress={props.onPress}>
       <ADIBEntry source={props.source} height={162}>
-        <ADText>{startDateShortString}</ADText>
+        <ADText>{toADMonthDayDateString(props.isoDate)}</ADText>
         <ADText style={textStyles.mediumHeading} numberOfLines={3}>
           {props.blurb}
         </ADText>
