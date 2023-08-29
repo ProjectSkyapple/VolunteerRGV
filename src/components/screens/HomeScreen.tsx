@@ -11,6 +11,7 @@ import ADText from "../ADText/ADText";
 import { useState } from "react";
 import HomeSubscreen from "./HomeSubscreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ADFloatingActionButton from "../ADButtons/ADFloatingActionButton";
 
 const HomeScreen = () => {
   const [feedTabTextStyle, setFeedTabTextStyle] = useState(
@@ -72,6 +73,11 @@ const HomeScreen = () => {
       </View>
 
       <HomeSubscreen type="feed" />
+
+      <ADFloatingActionButton
+        text="Share event"
+        linearGradientColors={["#000", "#000"]}
+      />
 
       <StatusBar style="auto" />
     </SafeAreaView>

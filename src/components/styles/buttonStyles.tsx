@@ -6,6 +6,11 @@ const buttonStyles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 15,
   },
+  floatingActionButton: {
+    borderRadius: 24,
+    paddingHorizontal: 24,
+    paddingVertical: 24,
+  },
   baseButtonText: {
     textAlign: "center",
     fontWeight: "600",
