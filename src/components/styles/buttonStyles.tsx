@@ -7,9 +7,12 @@ const buttonStyles = StyleSheet.create({
     paddingVertical: 15,
   },
   floatingActionButton: {
-    borderRadius: 24,
+    borderRadius: 100,
     paddingHorizontal: 24,
-    paddingVertical: 24,
+    paddingVertical: 21,
+    flexDirection: "row",
+    alignItems: "center",
+    columnGap: 6,
   },
   baseButtonText: {
     textAlign: "center",
@@ -17,6 +20,11 @@ const buttonStyles = StyleSheet.create({
   },
   filledButtonTextAdditions: {
     color: "white",
+  },
+  floatingActionButtonPosition: {
+    position: "absolute",
+    bottom: 18,
+    right: 18,
   },
 });
 
