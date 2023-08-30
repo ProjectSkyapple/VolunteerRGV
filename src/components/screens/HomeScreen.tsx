@@ -77,7 +77,7 @@ const HomeScreen = () => {
       <ADFloatingActionButton
         text="Share event"
         linearGradientColors={["#222", "#000"]}
-        ioniconsGlyph="add"
+        ioniconsGlyph="pencil-outline"
       />
 
       <StatusBar style="auto" />
