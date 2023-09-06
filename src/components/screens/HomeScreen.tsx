@@ -12,8 +12,12 @@ import { useState } from "react";
 import HomeSubscreen from "./HomeSubscreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ADFloatingActionButton from "../ADButtons/ADFloatingActionButton";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const HomeScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   const [feedTabTextStyle, setFeedTabTextStyle] = useState(
     homeScreenStyles.selectedCustomTopTabText
   );
@@ -78,6 +82,9 @@ const HomeScreen = () => {
         text="Share event"
         linearGradientColors={["#222", "#000"]}
         ioniconsGlyph="pencil-outline"
+        onPress={() => {
+          navigation.navigate("Share Event", { formType: "share" });
+        }}
       />
 
       <StatusBar style="auto" />

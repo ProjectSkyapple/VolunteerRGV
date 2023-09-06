@@ -2,6 +2,7 @@ import { View } from "react-native";
 import AuthenticationScreen from "./src/components/screens/AuthenticationScreen";
 import DetailsScreen from "./src/components/screens/DetailsScreen";
 import HomeScreen from "./src/components/screens/HomeScreen";
+import ShareEventScreen from "./src/components/screens/ShareEventScreen";
 import StatusBarArea from "./src/components/global/StatusBarArea";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -45,6 +46,11 @@ export default function App() {
             options={noHeaderScreen}
           />
           <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen
+            name="Share Event"
+            component={ShareEventScreen}
+            options={{ title: "" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

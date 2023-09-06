@@ -18,6 +18,7 @@ import {
   toADHourMinuteTimeString,
   toADMonthDayDateString,
 } from "../../functions/functions";
+import { RoutesParamList } from "../../types/RoutesParamList";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -39,13 +40,6 @@ const ADVerticalDTStack = (props: ADVerticalDTStackProps) => {
       </ADText>
     </View>
   );
-};
-
-type RoutesParamList = {
-  Details: {
-    eventsList: string;
-    details: EOEvent;
-  };
 };
 
 export default function DetailsScreen() {
