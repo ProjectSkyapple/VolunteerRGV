@@ -49,7 +49,7 @@ export default function App() {
           <Stack.Screen
             name="Share Event"
             component={ShareEventScreen}
-            options={{ title: "" }}
+            options={{ title: "Input Event Details" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

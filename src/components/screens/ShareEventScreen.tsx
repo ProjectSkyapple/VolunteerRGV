@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
 import ADDangerFilledButton from "../ADButtons/ADDangerFilledButton";
@@ -7,11 +7,33 @@ import ADText from "../ADText/ADText";
 import ADTextInput from "../ADTextInputs/ADTextInput";
 import screenStyles from "../styles/screenStyles";
 import textStyles from "../styles/textStyles";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../../types/RoutesParamList";
 import { Colors } from "../styles/colors";
+import Checkbox from "expo-checkbox";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+
+interface ADFormRowProps {
+  labelText: string;
+  inputComponent: ReactNode;
+}
+
+const ADFormRow = (props: ADFormRowProps) => {
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <ADText style={{ fontWeight: "600" }}>{props.labelText}</ADText>
+      {props.inputComponent}
+    </View>
+  );
+};
 
 const ShareEventScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -20,16 +42,50 @@ const ShareEventScreen = () => {
   const shareEventRouteParams = route.params;
   const eventFormType = shareEventRouteParams.formType;
 
+  let startDateObject = new Date(Date.now() + 7 * 86400000);
+  let endDateObject = new Date(Date.now() + 7 * 86400000);
+  let earliestAllowableDate = new Date(Date.now() + 7 * 86400000);
+
   const [blurb, setBlurb] = useState("");
   const [host, setHost] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startDate, setStartDate] = useState(
+    startDateObject.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  );
+  const [startTime, setStartTime] = useState(
+    startDateObject.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+    })
+  );
+  const [endDate, setEndDate] = useState(
+    endDateObject.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  );
+  const [endTime, setEndTime] = useState(
+    endDateObject.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+    })
+  );
   const [locationType, setLocationType] = useState("In-Person");
+  const [isLocationTypeCheckboxChecked, setIsLocationTypeCheckboxChecked] =
+    useState(false);
   const [locationAddress, setLocationAddress] = useState("");
   const [summary, setSummary] = useState("");
   const [isRequesting, setIsRequesting] = useState(false);
+  const [isStartDatePickerShown, setIsStartDatePickerShown] = useState(false);
+  const [isStartTimePickerShown, setIsStartTimePickerShown] = useState(false);
+  const [isEndDatePickerShown, setIsEndDatePickerShown] = useState(false);
+  const [isEndTimePickerShown, setIsEndTimePickerShown] = useState(false);
 
   return (
     <KeyboardAwareScrollView>
@@ -64,6 +120,140 @@ const ShareEventScreen = () => {
             placeholder="Host Name"
             onChangeText={(newText) => setHost(newText)}
           />
+
+          <ADFormRow
+            labelText="Starts"
+            inputComponent={
+              <View style={{ flexDirection: "row", columnGap: 15 }}>
+                <Pressable
+                  onPress={() => {
+                    setIsStartDatePickerShown(true);
+                  }}
+                >
+                  <ADText>{startDate}</ADText>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    setIsStartTimePickerShown(true);
+                  }}
+                >
+                  <ADText>{startTime}</ADText>
+                </Pressable>
+              </View>
+            }
+          />
+          {isStartDatePickerShown && (
+            <RNDateTimePicker
+              value={startDateObject}
+              mode="date"
+              minimumDate={earliestAllowableDate}
+              onChange={(event, date) => {
+                startDateObject = date;
+                setIsStartDatePickerShown(false);
+                setStartDate(
+                  startDateObject.toLocaleDateString("en-US", {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                );
+              }}
+            />
+          )}
+          {isStartTimePickerShown && (
+            <RNDateTimePicker
+              value={startDateObject}
+              mode="time"
+              onChange={(event, date) => {
+                startDateObject = date;
+                setIsStartTimePickerShown(false);
+                setStartTime(
+                  startDateObject.toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ADFormRow
+            labelText="Ends"
+            inputComponent={
+              <View style={{ flexDirection: "row", columnGap: 15 }}>
+                <Pressable
+                  onPress={() => {
+                    setIsEndDatePickerShown(true);
+                  }}
+                >
+                  <ADText>{endDate}</ADText>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    setIsEndTimePickerShown(true);
+                  }}
+                >
+                  <ADText>{endTime}</ADText>
+                </Pressable>
+              </View>
+            }
+          />
+          {isEndDatePickerShown && (
+            <RNDateTimePicker
+              value={endDateObject}
+              mode="date"
+              minimumDate={earliestAllowableDate}
+              onChange={(event, date) => {
+                endDateObject = date;
+                setIsEndDatePickerShown(false);
+                setEndDate(
+                  endDateObject.toLocaleDateString("en-US", {
+                    weekday: "short",
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                );
+              }}
+            />
+          )}
+          {isEndTimePickerShown && (
+            <RNDateTimePicker
+              value={endDateObject}
+              mode="time"
+              onChange={(event, date) => {
+                endDateObject = date;
+                setIsEndTimePickerShown(false);
+                setEndTime(
+                  endDateObject.toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ADFormRow
+            labelText="Virtual Location?"
+            inputComponent={
+              <Checkbox
+                value={isLocationTypeCheckboxChecked}
+                onValueChange={() => {
+                  if (!isLocationTypeCheckboxChecked) {
+                    setLocationType("Virtual");
+                    setIsLocationTypeCheckboxChecked(true);
+                  } else {
+                    setLocationType("In-Person");
+                    setIsLocationTypeCheckboxChecked(false);
+                  }
+                }}
+                color={Colors.primaryColor}
+              />
+            }
+          />
+
           <ADTextInput
             labelText="Location Address"
             placeholder="999 Anystreet Rd, Harlingen, TX"
