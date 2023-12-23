@@ -14,6 +14,8 @@ import { RoutesParamList } from "../../types/RoutesParamList";
 import { Colors } from "../styles/colors";
 import Checkbox from "expo-checkbox";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import * as SecureStore from "expo-secure-store";
+import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
 
 interface ADFormRowProps {
   labelText: string;
@@ -86,6 +88,60 @@ const ShareEventScreen = () => {
   const [isStartTimePickerShown, setIsStartTimePickerShown] = useState(false);
   const [isEndDatePickerShown, setIsEndDatePickerShown] = useState(false);
   const [isEndTimePickerShown, setIsEndTimePickerShown] = useState(false);
+
+  const validateInput = () => {
+    if (startDate === endDate) {
+      if (
+        new Date(startDate + " " + startTime).toISOString() >=
+        new Date(endDate + " " + endTime).toISOString()
+      ) {
+        return false;
+      }
+    } else if (
+      new Date(startDate).toISOString() > new Date(endDate).toISOString()
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const createAirtableEventRecord = async () => {
+    let airtableUserRecordId = await SecureStore.getItemAsync(
+      "airtableUserRecordId"
+    );
+
+    let eventDataInput = JSON.stringify({
+      fields: {
+        Blurb: blurb,
+        Host: host,
+        Starts: new Date(startDate + " " + startTime).toISOString(), // Taking date directly from label prevents sending stale data
+        Ends: new Date(endDate + " " + endTime).toISOString(), // Taking date directly from label prevents sending stale data
+        Location: locationAddress,
+        "Location Type": (() => {
+          return isLocationTypeCheckboxChecked ? "Virtual" : "In-Person";
+        })(),
+        Summary: summary,
+        Status: "In Review",
+        "Shared By": [airtableUserRecordId],
+        "Image Background": "" + Math.ceil(Math.random() * 4) + 1, // Returns integer strings "1" to "5" inclusive
+      },
+    });
+
+    let createdEventResponse = await fetch(
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: eventDataInput,
+      }
+    );
+
+    return createdEventResponse.json();
+  };
 
   return (
     <KeyboardAwareScrollView>
@@ -269,8 +325,30 @@ const ShareEventScreen = () => {
           />
         </View>
 
-        {eventFormType === "share" && (
-          <ADPrimaryFilledButton text="Send event for review" />
+        {eventFormType === "share" && !isRequesting && (
+          <ADPrimaryFilledButton
+            text="Send event for review"
+            onPress={() => {
+              if (validateInput()) {
+                setIsRequesting(true);
+                createAirtableEventRecord().then(() => {
+                  setIsRequesting(false);
+                  Alert.alert(
+                    "Event Sent!",
+                    "The event has been sent for review.",
+                    [{ text: "OK" }]
+                  );
+                  navigation.navigate("Home");
+                });
+              } else {
+                Alert.alert(
+                  "Input Error",
+                  "The event cannot end before it starts.",
+                  [{ text: "Dismiss" }]
+                );
+              }
+            }}
+          />
         )}
         {eventFormType === "edit" && (
           <ADPrimaryFilledButton text="Send edits for review" />
