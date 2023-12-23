@@ -90,20 +90,9 @@ const ShareEventScreen = () => {
   const [isEndTimePickerShown, setIsEndTimePickerShown] = useState(false);
 
   const validateInput = () => {
-    if (startDate === endDate) {
-      if (
-        new Date(startDate + " " + startTime).toISOString() >=
-        new Date(endDate + " " + endTime).toISOString()
-      ) {
-        return false;
-      }
-    } else if (
-      new Date(startDate).toISOString() > new Date(endDate).toISOString()
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    return startDateObject.toISOString() >= endDateObject.toISOString()
+      ? false
+      : true;
   };
 
   const createAirtableEventRecord = async () => {
@@ -115,12 +104,10 @@ const ShareEventScreen = () => {
       fields: {
         Blurb: blurb,
         Host: host,
-        Starts: new Date(startDate + " " + startTime).toISOString(), // Taking date directly from label prevents sending stale data
-        Ends: new Date(endDate + " " + endTime).toISOString(), // Taking date directly from label prevents sending stale data
+        Starts: startDateObject.toISOString(),
+        Ends: endDateObject.toISOString(),
         Location: locationAddress,
-        "Location Type": (() => {
-          return isLocationTypeCheckboxChecked ? "Virtual" : "In-Person";
-        })(),
+        "Location Type": locationType,
         Summary: summary,
         Status: "In Review",
         "Shared By": [airtableUserRecordId],
