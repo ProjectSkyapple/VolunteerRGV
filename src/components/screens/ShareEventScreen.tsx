@@ -88,11 +88,15 @@ const ShareEventScreen = () => {
   const [isStartTimePickerShown, setIsStartTimePickerShown] = useState(false);
   const [isEndDatePickerShown, setIsEndDatePickerShown] = useState(false);
   const [isEndTimePickerShown, setIsEndTimePickerShown] = useState(false);
+  const [startDateISOString, setStartDateISOString] = useState(
+    startDateObject.toISOString()
+  );
+  const [endDateISOString, setEndDateISOString] = useState(
+    endDateObject.toISOString()
+  );
 
   const validateInput = () => {
-    return startDateObject.toISOString() >= endDateObject.toISOString()
-      ? false
-      : true;
+    return startDateISOString >= endDateISOString ? false : true;
   };
 
   const createAirtableEventRecord = async () => {
@@ -104,8 +108,8 @@ const ShareEventScreen = () => {
       fields: {
         Blurb: blurb,
         Host: host,
-        Starts: startDateObject.toISOString(),
-        Ends: endDateObject.toISOString(),
+        Starts: startDateISOString,
+        Ends: endDateISOString,
         Location: locationAddress,
         "Location Type": locationType,
         Summary: summary,
@@ -201,6 +205,7 @@ const ShareEventScreen = () => {
                     year: "numeric",
                   })
                 );
+                setStartDateISOString(startDateObject.toISOString());
               }}
             />
           )}
@@ -217,6 +222,7 @@ const ShareEventScreen = () => {
                     minute: "numeric",
                   })
                 );
+                setStartDateISOString(startDateObject.toISOString());
               }}
             />
           )}
@@ -258,6 +264,7 @@ const ShareEventScreen = () => {
                     year: "numeric",
                   })
                 );
+                setEndDateISOString(endDateObject.toISOString());
               }}
             />
           )}
@@ -274,6 +281,7 @@ const ShareEventScreen = () => {
                     minute: "numeric",
                   })
                 );
+                setEndDateISOString(endDateObject.toISOString());
               }}
             />
           )}
