@@ -76,7 +76,18 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <HomeSubscreen type="feed" />
+      {JSON.stringify(feedTabTextStyle) ===
+        JSON.stringify(homeScreenStyles.selectedCustomTopTabText) && (
+        <HomeSubscreen type="feed" />
+      )}
+      {JSON.stringify(followingTabTextStyle) ===
+        JSON.stringify(homeScreenStyles.selectedCustomTopTabText) && (
+        <HomeSubscreen type="following" />
+      )}
+      {JSON.stringify(yourSharesTabTextStyle) ===
+        JSON.stringify(homeScreenStyles.selectedCustomTopTabText) && (
+        <HomeSubscreen type="your-shares" />
+      )}
 
       <ADFloatingActionButton
         text="Share event"

@@ -11,8 +11,24 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 // Return user's Airtable Feed
-const returnAirtableEventsListUrl = (sharedBy: string) => {
-  return `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=AND((%7BStatus%7D+%3D+'Scheduled')%2C+NOT(%7BShared+By%7D+%3D+'${sharedBy}'))&sort%5B0%5D%5Bfield%5D=Starts&sort%5B0%5D%5Bdirection%5D=asc&view=Grid+view`;
+const returnAirtableEventsListUrl = (
+  user: string,
+  type: "feed" | "following" | "your-shares"
+) => {
+  switch (type) {
+    case "feed":
+      return encodeURI(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=AND({Status} = "Scheduled", NOT({Shared By} = "${user}"), NOT(SEARCH("${user}", {Followers}&"")))&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+      );
+    case "following": // TODO: Get user's Airtable Following events from Airtable Users table instead
+      return encodeURI(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Followers}&"")&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+      );
+    case "your-shares": // TODO: Same here
+      return encodeURI(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Shared By}&"")&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+      );
+  }
 };
 
 interface HomeSubscreenProps {
@@ -31,7 +47,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
     );
 
     let eventsResponse = await fetch(
-      returnAirtableEventsListUrl(airtableUserRecordId),
+      returnAirtableEventsListUrl(airtableUserRecordId, props.type),
       {
         method: "GET",
         headers: {
@@ -133,7 +149,16 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
               textStyles.largeHeading,
             ]}
           >
-            Your feed.
+            {(() => {
+              switch (props.type) {
+                case "feed":
+                  return "Your feed.";
+                case "following":
+                  return "Events you're following.";
+                case "your-shares":
+                  return "Your shares.";
+              }
+            })()}
           </ADText>
         }
         onRefresh={() => {
