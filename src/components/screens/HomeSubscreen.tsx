@@ -18,15 +18,15 @@ const returnAirtableEventsListUrl = (
   switch (type) {
     case "feed":
       return encodeURI(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=AND({Status} = "Scheduled", NOT({Shared By} = "${user}"), NOT(SEARCH("${user}", {Followers}&"")))&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=AND({Status} = "Scheduled", NOT(SEARCH("${user}", {Rollup: Shared By})), NOT(SEARCH("${user}", {Rollup: Followers})))&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
       );
     case "following": // TODO: Get user's Airtable Following events from Airtable Users table instead
       return encodeURI(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Followers}&"")&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Rollup: Followers})&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
       );
     case "your-shares": // TODO: Same here
       return encodeURI(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Shared By}&"")&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Rollup: Shared By})&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
       );
   }
 };
