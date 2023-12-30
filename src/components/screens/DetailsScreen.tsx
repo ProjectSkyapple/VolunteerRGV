@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
 import ADDangerFilledButton from "../ADButtons/ADDangerFilledButton";
 import ADHPCard from "../ADCards/ADHPCard";
@@ -19,6 +26,8 @@ import {
   toADMonthDayDateString,
 } from "../../functions/functions";
 import { RoutesParamList } from "../../types/RoutesParamList";
+import * as SecureStore from "expo-secure-store";
+import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -52,6 +61,41 @@ export default function DetailsScreen() {
   const startTimeShortString = toADHourMinuteTimeString(details.fields.Starts);
   const endDateShortString = toADMonthDayDateString(details.fields.Ends);
   const endTimeShortString = toADHourMinuteTimeString(details.fields.Ends);
+
+  const followEvent = async () => {
+    // TODO: Handle Airtable "record not found" exceptions
+
+    let airtableUserRecordId = await SecureStore.getItemAsync(
+      "airtableUserRecordId"
+    );
+
+    let airtableApiUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events/${details.id}`;
+
+    let eventResponse = await fetch(airtableApiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+      },
+    });
+
+    let eventResponseJson = await eventResponse.json();
+    eventResponseJson.fields.Followers.push(airtableUserRecordId);
+
+    let followResponse = await fetch(airtableApiUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fields: {
+          Followers: eventResponseJson.fields.Followers,
+        },
+      }),
+    });
+
+    return followResponse.json();
+  };
 
   return (
     <SafeAreaView style={screenStyles.baseScreen}>
@@ -118,7 +162,19 @@ export default function DetailsScreen() {
         <ADHPCard heading="Summary" paragraph={details.fields.Summary} />
 
         {eventsList === "feed" && (
-          <ADPrimaryFilledButton text="Follow" onPress={() => {}} />
+          <ADPrimaryFilledButton
+            text="Follow"
+            onPress={() => {
+              followEvent().then(() => {
+                Alert.alert(
+                  "Event Followed!",
+                  "The event has been added to your Following list.",
+                  [{ text: "OK" }]
+                );
+                navigation.navigate("Home");
+              });
+            }}
+          />
         )}
         {eventsList === "following" && (
           <ADDangerFilledButton text="Unfollow" onPress={() => {}} />
