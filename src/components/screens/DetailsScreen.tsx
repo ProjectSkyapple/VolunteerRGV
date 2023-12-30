@@ -107,6 +107,42 @@ export default function DetailsScreen() {
     return followResponse.json();
   };
 
+  const unfollowEvent = async () => {
+    // TODO: Handle Airtable "record not found" exceptions
+
+    let airtableUserRecordId = await SecureStore.getItemAsync(
+      "airtableUserRecordId"
+    );
+
+    let airtableApiUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events/${details.id}`;
+
+    let eventResponse = await fetch(airtableApiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+      },
+    });
+
+    let eventResponseJson: EOEvent = await eventResponse.json();
+
+    let followResponse = await fetch(airtableApiUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fields: {
+          Followers: eventResponseJson.fields.Followers.filter((recordId) => {
+            recordId !== airtableUserRecordId;
+          }),
+        },
+      }),
+    });
+
+    return followResponse.json();
+  };
+
   return (
     <SafeAreaView style={screenStyles.baseScreen}>
       <ScrollView
@@ -187,7 +223,14 @@ export default function DetailsScreen() {
           />
         )}
         {eventsList === "following" && (
-          <ADDangerFilledButton text="Unfollow" onPress={() => {}} />
+          <ADDangerFilledButton
+            text="Unfollow"
+            onPress={() => {
+              unfollowEvent().then(() => {
+                navigation.navigate("Home");
+              });
+            }}
+          />
         )}
       </ScrollView>
 
