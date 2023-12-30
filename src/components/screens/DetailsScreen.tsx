@@ -78,8 +78,18 @@ export default function DetailsScreen() {
       },
     });
 
-    let eventResponseJson = await eventResponse.json();
-    eventResponseJson.fields.Followers.push(airtableUserRecordId);
+    let eventResponseJson: EOEvent = await eventResponse.json();
+    let newFollowersList: string[];
+
+    // When returning a record, the Airtable API doesn't return the record's "empty" or falsy fields.
+    if (eventResponseJson.fields.hasOwnProperty("Followers")) {
+      // If returned record has followers
+      eventResponseJson.fields.Followers.push(airtableUserRecordId);
+      newFollowersList = eventResponseJson.fields.Followers;
+    } else {
+      // If returned record doesn't have followers
+      newFollowersList = [airtableUserRecordId];
+    }
 
     let followResponse = await fetch(airtableApiUrl, {
       method: "PATCH",
@@ -89,7 +99,7 @@ export default function DetailsScreen() {
       },
       body: JSON.stringify({
         fields: {
-          Followers: eventResponseJson.fields.Followers,
+          Followers: newFollowersList,
         },
       }),
     });
