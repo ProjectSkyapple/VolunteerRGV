@@ -7,7 +7,7 @@ import ADText from "../ADText/ADText";
 import ADTextInput from "../ADTextInputs/ADTextInput";
 import screenStyles from "../styles/screenStyles";
 import textStyles from "../styles/textStyles";
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../../types/RoutesParamList";
@@ -44,9 +44,44 @@ const ShareEventScreen = () => {
   const shareEventRouteParams = route.params;
   const eventFormType = shareEventRouteParams.formType;
 
-  let startDateObject = new Date(Date.now() + 7 * 86400000);
-  let endDateObject = new Date(Date.now() + 7 * 86400000);
-  let earliestAllowableDate = new Date(Date.now() + 7 * 86400000);
+  let initialBlurb;
+  let initialHost;
+  let initialStartDate;
+  let initialStartTime;
+  let initialEndDate;
+  let initialEndTime;
+  let initialLocationType;
+  let initialLocationAddress;
+  let initialSummary;
+
+  let initialStartDateObject;
+  let initialEndDateObject;
+
+  if (eventFormType === "share") {
+    initialStartDateObject = new Date(Date.now() + 7 * 86400000);
+    initialEndDateObject = new Date(Date.now() + 7 * 86400000);
+
+    initialBlurb = "";
+    initialHost = "";
+    initialLocationType = "In-Person";
+    initialLocationAddress = "";
+    initialSummary = "";
+  } else if (eventFormType === "edit") {
+    initialStartDateObject = new Date(
+      shareEventRouteParams.details.fields.Starts
+    );
+    initialEndDateObject = new Date(shareEventRouteParams.details.fields.Ends);
+
+    initialBlurb = shareEventRouteParams.details.fields.Blurb;
+    initialHost = shareEventRouteParams.details.fields.Host;
+    initialLocationType = shareEventRouteParams.details.fields["Location Type"];
+    initialLocationAddress = shareEventRouteParams.details.fields.Location;
+    initialSummary = shareEventRouteParams.details.fields.Summary;
+  }
+
+  const startDateObject = useRef(initialStartDateObject);
+  const endDateObject = useRef(initialEndDateObject);
+  const earliestAllowableDate = useRef(new Date());
 
   const [blurb, setBlurb] = useState("");
   const [host, setHost] = useState("");

@@ -7,5 +7,6 @@ export type RoutesParamList = {
   };
   "Share Event": {
     formType: string;
+    details?: EOEvent;
   };
 };

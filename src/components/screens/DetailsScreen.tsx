@@ -28,6 +28,7 @@ import {
 import { RoutesParamList } from "../../types/RoutesParamList";
 import * as SecureStore from "expo-secure-store";
 import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
+import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -231,6 +232,9 @@ export default function DetailsScreen() {
               });
             }}
           />
+        )}
+        {eventsList === "your-shares" && (
+          <ADOutlinedButton text="Edit" onPress={() => {}} />
         )}
       </ScrollView>
 
