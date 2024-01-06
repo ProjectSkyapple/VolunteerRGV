@@ -51,6 +51,7 @@ const ShareEventScreen = () => {
   let initialEndDate;
   let initialEndTime;
   let initialLocationType;
+  let initialIsLocationTypeCheckboxChecked;
   let initialLocationAddress;
   let initialSummary;
 
@@ -64,6 +65,7 @@ const ShareEventScreen = () => {
     initialBlurb = "";
     initialHost = "";
     initialLocationType = "In-Person";
+    initialIsLocationTypeCheckboxChecked = false;
     initialLocationAddress = "";
     initialSummary = "";
   } else if (eventFormType === "edit") {
@@ -75,6 +77,9 @@ const ShareEventScreen = () => {
     initialBlurb = shareEventRouteParams.details.fields.Blurb;
     initialHost = shareEventRouteParams.details.fields.Host;
     initialLocationType = shareEventRouteParams.details.fields["Location Type"];
+    initialIsLocationTypeCheckboxChecked = (() => {
+      return initialLocationType === "Virtual" ? true : false;
+    })();
     initialLocationAddress = shareEventRouteParams.details.fields.Location;
     initialSummary = shareEventRouteParams.details.fields.Summary;
   }

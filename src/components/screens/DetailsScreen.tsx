@@ -234,7 +234,15 @@ export default function DetailsScreen() {
           />
         )}
         {eventsList === "your-shares" && (
-          <ADOutlinedButton text="Edit" onPress={() => {}} />
+          <ADOutlinedButton
+            text="Edit"
+            onPress={() => {
+              navigation.navigate("Share Event", {
+                formType: "share",
+                details: details,
+              });
+            }}
+          />
         )}
       </ScrollView>
 
