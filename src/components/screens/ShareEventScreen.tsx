@@ -88,10 +88,10 @@ const ShareEventScreen = () => {
   const endDateObject = useRef(initialEndDateObject);
   const earliestAllowableDate = useRef(new Date());
 
-  const [blurb, setBlurb] = useState("");
-  const [host, setHost] = useState("");
+  const [blurb, setBlurb] = useState(initialBlurb);
+  const [host, setHost] = useState(initialHost);
   const [startDate, setStartDate] = useState(
-    startDateObject.toLocaleDateString("en-US", {
+    startDateObject.current.toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
       day: "numeric",
@@ -99,13 +99,13 @@ const ShareEventScreen = () => {
     })
   );
   const [startTime, setStartTime] = useState(
-    startDateObject.toLocaleTimeString("en-US", {
+    startDateObject.current.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
     })
   );
   const [endDate, setEndDate] = useState(
-    endDateObject.toLocaleDateString("en-US", {
+    endDateObject.current.toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
       day: "numeric",
@@ -113,26 +113,28 @@ const ShareEventScreen = () => {
     })
   );
   const [endTime, setEndTime] = useState(
-    endDateObject.toLocaleTimeString("en-US", {
+    endDateObject.current.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
     })
   );
-  const [locationType, setLocationType] = useState("In-Person");
+  const [locationType, setLocationType] = useState(initialLocationType);
   const [isLocationTypeCheckboxChecked, setIsLocationTypeCheckboxChecked] =
-    useState(false);
-  const [locationAddress, setLocationAddress] = useState("");
-  const [summary, setSummary] = useState("");
+    useState(initialIsLocationTypeCheckboxChecked);
+  const [locationAddress, setLocationAddress] = useState(
+    initialLocationAddress
+  );
+  const [summary, setSummary] = useState(initialSummary);
   const [isRequesting, setIsRequesting] = useState(false);
   const [isStartDatePickerShown, setIsStartDatePickerShown] = useState(false);
   const [isStartTimePickerShown, setIsStartTimePickerShown] = useState(false);
   const [isEndDatePickerShown, setIsEndDatePickerShown] = useState(false);
   const [isEndTimePickerShown, setIsEndTimePickerShown] = useState(false);
   const [startDateISOString, setStartDateISOString] = useState(
-    startDateObject.toISOString()
+    startDateObject.current.toISOString()
   );
   const [endDateISOString, setEndDateISOString] = useState(
-    endDateObject.toISOString()
+    endDateObject.current.toISOString()
   );
 
   const validateInput = () => {
