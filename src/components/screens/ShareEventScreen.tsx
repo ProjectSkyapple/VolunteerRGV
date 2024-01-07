@@ -202,11 +202,13 @@ const ShareEventScreen = () => {
           <ADTextInput
             labelText="Blurb"
             placeholder="Event Name or call to action"
+            value={blurb}
             onChangeText={(newText) => setBlurb(newText)}
           />
           <ADTextInput
             labelText="Host"
             placeholder="Host Name"
+            value={host}
             onChangeText={(newText) => setHost(newText)}
           />
 
@@ -216,6 +218,9 @@ const ShareEventScreen = () => {
               <View style={{ flexDirection: "row", columnGap: 15 }}>
                 <Pressable
                   onPress={() => {
+                    earliestAllowableDate.current = new Date(
+                      Date.now() + 7 * 86400000
+                    );
                     setIsStartDatePickerShown(true);
                   }}
                 >
@@ -233,38 +238,42 @@ const ShareEventScreen = () => {
           />
           {isStartDatePickerShown && (
             <RNDateTimePicker
-              value={startDateObject}
+              value={startDateObject.current}
               mode="date"
-              minimumDate={earliestAllowableDate}
+              minimumDate={earliestAllowableDate.current}
               onChange={(event, date) => {
-                startDateObject = date;
-                setIsStartDatePickerShown(false);
-                setStartDate(
-                  startDateObject.toLocaleDateString("en-US", {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })
-                );
-                setStartDateISOString(startDateObject.toISOString());
+                if (event.type === "dismissed") {
+                  startDateObject.current = date;
+                  setIsStartDatePickerShown(false);
+                  setStartDate(
+                    startDateObject.current.toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  );
+                  setStartDateISOString(startDateObject.current.toISOString());
+                }
               }}
             />
           )}
           {isStartTimePickerShown && (
             <RNDateTimePicker
-              value={startDateObject}
+              value={startDateObject.current}
               mode="time"
               onChange={(event, date) => {
-                startDateObject = date;
-                setIsStartTimePickerShown(false);
-                setStartTime(
-                  startDateObject.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                  })
-                );
-                setStartDateISOString(startDateObject.toISOString());
+                if (event.type === "dismissed") {
+                  startDateObject.current = date;
+                  setIsStartTimePickerShown(false);
+                  setStartTime(
+                    startDateObject.current.toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })
+                  );
+                  setStartDateISOString(startDateObject.current.toISOString());
+                }
               }}
             />
           )}
@@ -292,38 +301,42 @@ const ShareEventScreen = () => {
           />
           {isEndDatePickerShown && (
             <RNDateTimePicker
-              value={endDateObject}
+              value={endDateObject.current}
               mode="date"
-              minimumDate={earliestAllowableDate}
+              minimumDate={earliestAllowableDate.current}
               onChange={(event, date) => {
-                endDateObject = date;
-                setIsEndDatePickerShown(false);
-                setEndDate(
-                  endDateObject.toLocaleDateString("en-US", {
-                    weekday: "short",
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })
-                );
-                setEndDateISOString(endDateObject.toISOString());
+                if (event.type === "dismissed") {
+                  endDateObject.current = date;
+                  setIsEndDatePickerShown(false);
+                  setEndDate(
+                    endDateObject.current.toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  );
+                  setEndDateISOString(endDateObject.current.toISOString());
+                }
               }}
             />
           )}
           {isEndTimePickerShown && (
             <RNDateTimePicker
-              value={endDateObject}
+              value={endDateObject.current}
               mode="time"
               onChange={(event, date) => {
-                endDateObject = date;
-                setIsEndTimePickerShown(false);
-                setEndTime(
-                  endDateObject.toLocaleTimeString("en-US", {
-                    hour: "numeric",
-                    minute: "numeric",
-                  })
-                );
-                setEndDateISOString(endDateObject.toISOString());
+                if (event.type === "dismissed") {
+                  endDateObject.current = date;
+                  setIsEndTimePickerShown(false);
+                  setEndTime(
+                    endDateObject.current.toLocaleTimeString("en-US", {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })
+                  );
+                  setEndDateISOString(endDateObject.current.toISOString());
+                }
               }}
             />
           )}
@@ -350,6 +363,7 @@ const ShareEventScreen = () => {
           <ADTextInput
             labelText="Location Address"
             placeholder="999 Anystreet Rd, Harlingen, TX"
+            value={locationAddress}
             onChangeText={(newText) => setLocationAddress(newText)}
           />
           <ADTextInput
@@ -358,6 +372,7 @@ const ShareEventScreen = () => {
             numberOfLines={6}
             textAlignVertical="top"
             placeholder="Include any other important information potential participants need to know such as contact information in this box."
+            value={summary}
             onChangeText={(newText) => setSummary(newText)}
           />
         </View>
