@@ -238,7 +238,7 @@ export default function DetailsScreen() {
             text="Edit"
             onPress={() => {
               navigation.navigate("Share Event", {
-                formType: "share",
+                formType: "edit",
                 details: details,
               });
             }}

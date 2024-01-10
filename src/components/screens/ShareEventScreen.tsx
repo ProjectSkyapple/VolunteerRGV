@@ -242,9 +242,11 @@ const ShareEventScreen = () => {
               mode="date"
               minimumDate={earliestAllowableDate.current}
               onChange={(event, date) => {
-                if (event.type === "dismissed") {
+                setIsStartDatePickerShown(false);
+
+                if (event.type === "set") {
                   startDateObject.current = date;
-                  setIsStartDatePickerShown(false);
+                  // setIsStartDatePickerShown(false);
                   setStartDate(
                     startDateObject.current.toLocaleDateString("en-US", {
                       weekday: "short",
@@ -263,9 +265,11 @@ const ShareEventScreen = () => {
               value={startDateObject.current}
               mode="time"
               onChange={(event, date) => {
-                if (event.type === "dismissed") {
+                setIsStartTimePickerShown(false);
+
+                if (event.type === "set") {
                   startDateObject.current = date;
-                  setIsStartTimePickerShown(false);
+                  // setIsStartTimePickerShown(false);
                   setStartTime(
                     startDateObject.current.toLocaleTimeString("en-US", {
                       hour: "numeric",
@@ -305,9 +309,11 @@ const ShareEventScreen = () => {
               mode="date"
               minimumDate={earliestAllowableDate.current}
               onChange={(event, date) => {
-                if (event.type === "dismissed") {
+                setIsEndDatePickerShown(false);
+
+                if (event.type === "set") {
                   endDateObject.current = date;
-                  setIsEndDatePickerShown(false);
+                  // setIsEndDatePickerShown(false);
                   setEndDate(
                     endDateObject.current.toLocaleDateString("en-US", {
                       weekday: "short",
@@ -326,9 +332,11 @@ const ShareEventScreen = () => {
               value={endDateObject.current}
               mode="time"
               onChange={(event, date) => {
-                if (event.type === "dismissed") {
+                setIsEndTimePickerShown(false);
+
+                if (event.type === "set") {
                   endDateObject.current = date;
-                  setIsEndTimePickerShown(false);
+                  // setIsEndTimePickerShown(false);
                   setEndTime(
                     endDateObject.current.toLocaleTimeString("en-US", {
                       hour: "numeric",
