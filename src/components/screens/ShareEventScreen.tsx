@@ -176,6 +176,65 @@ const ShareEventScreen = () => {
     return createdEventResponse.json();
   };
 
+  const editAirtableEventRecord = async () => {
+    let airtableUserRecordId = await SecureStore.getItemAsync(
+      "airtableUserRecordId"
+    );
+
+    let eventDataInput = JSON.stringify({
+      fields: {
+        Blurb: blurb,
+        Host: host,
+        Starts: startDateISOString,
+        Ends: endDateISOString,
+        Location: locationAddress,
+        "Location Type": locationType,
+        Summary: summary,
+        Status: "In Review",
+      },
+    });
+
+    let editedEventResponse = await fetch(
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events/${shareEventRouteParams.details.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: eventDataInput,
+      }
+    );
+
+    return editedEventResponse.json();
+  };
+
+  const cancelAirtableEventRecord = async () => {
+    let airtableUserRecordId = await SecureStore.getItemAsync(
+      "airtableUserRecordId"
+    );
+
+    let eventDataInput = JSON.stringify({
+      fields: {
+        Status: "Canceled",
+      },
+    });
+
+    let canceledEventResponse = await fetch(
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events/${shareEventRouteParams.details.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: eventDataInput,
+      }
+    );
+
+    return canceledEventResponse.json();
+  };
+
   return (
     <KeyboardAwareScrollView>
       <View
