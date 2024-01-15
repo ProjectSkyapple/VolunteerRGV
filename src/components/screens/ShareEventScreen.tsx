@@ -240,7 +240,7 @@ const ShareEventScreen = () => {
       <View
         style={[
           screenStyles.baseScreen,
-          { justifyContent: "space-evenly", padding: 18 },
+          { justifyContent: "space-evenly", padding: 18, rowGap: 18 },
         ]}
       >
         {eventFormType === "share" && (
@@ -470,7 +470,32 @@ const ShareEventScreen = () => {
           />
         )}
         {eventFormType === "edit" && (
-          <ADPrimaryFilledButton text="Send edits for review" />
+          <ADPrimaryFilledButton
+            text="Send edits for review"
+            onPress={() => {
+              if (validateInput()) {
+                setIsRequesting(true);
+                editAirtableEventRecord().then((details) => {
+                  setIsRequesting(false);
+                  Alert.alert(
+                    "Edits Sent!",
+                    "The edits have been sent for review.",
+                    [{ text: "OK" }]
+                  );
+                  navigation.navigate("Details", {
+                    eventsList: "your-shares",
+                    details: details,
+                  });
+                });
+              } else {
+                Alert.alert(
+                  "Input Error",
+                  "The event cannot end before it starts.",
+                  [{ text: "Dismiss" }]
+                );
+              }
+            }}
+          />
         )}
 
         {eventFormType == "edit" && (
