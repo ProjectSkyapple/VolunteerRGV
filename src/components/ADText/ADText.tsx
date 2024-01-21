@@ -21,7 +21,11 @@ const ADText = (props: TextProps) => {
   */
 
   return (
-    <Text style={props.style} numberOfLines={props.numberOfLines}>
+    <Text
+      style={props.style}
+      numberOfLines={props.numberOfLines}
+      selectable={props.selectable}
+    >
       {props.children}
     </Text>
   );

@@ -5,6 +5,7 @@ const entryStyles = StyleSheet.create({
     width: "100%",
   },
   baseEntryImageBackgroundImageStyle: {
+    backgroundColor: "#DDD",
     borderRadius: 15,
   },
   baseEntryBody: {

@@ -204,9 +204,17 @@ export default function DetailsScreen() {
           </View>
         </View>
 
-        <ADHPCard heading="Location" paragraph={details.fields.Location} />
+        <ADHPCard
+          heading="Location"
+          paragraph={details.fields.Location}
+          paragraphSelectable
+        />
 
-        <ADHPCard heading="Summary" paragraph={details.fields.Summary} />
+        <ADHPCard
+          heading="Summary"
+          paragraph={details.fields.Summary}
+          paragraphSelectable
+        />
 
         {eventsList === "feed" && (
           <ADPrimaryFilledButton

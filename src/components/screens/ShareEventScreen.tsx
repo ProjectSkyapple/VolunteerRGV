@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
 import ADDangerFilledButton from "../ADButtons/ADDangerFilledButton";
@@ -236,11 +243,12 @@ const ShareEventScreen = () => {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View
-        style={[
-          screenStyles.baseScreen,
-          { justifyContent: "space-evenly", padding: 18, rowGap: 18 },
+    <SafeAreaView style={screenStyles.baseScreen}>
+      <KeyboardAwareScrollView
+        style={screenStyles.baseScreenScrollView}
+        contentContainerStyle={[
+          { alignItems: "center", rowGap: 18 },
+          screenStyles.baseScreenScrollViewContentContainer,
         ]}
       >
         {eventFormType === "share" && (
@@ -469,7 +477,7 @@ const ShareEventScreen = () => {
             }}
           />
         )}
-        {eventFormType === "edit" && (
+        {eventFormType === "edit" && !isRequesting && (
           <ADPrimaryFilledButton
             text="Send edits for review"
             onPress={() => {
@@ -498,7 +506,7 @@ const ShareEventScreen = () => {
           />
         )}
 
-        {eventFormType == "edit" && (
+        {eventFormType == "edit" && !isRequesting && (
           <View
             style={{
               alignItems: "center",
@@ -516,8 +524,8 @@ const ShareEventScreen = () => {
         )}
 
         <StatusBar style="auto" />
-      </View>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
