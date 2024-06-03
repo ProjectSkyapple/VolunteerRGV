@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { ActivityIndicator, Alert, SafeAreaView, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
@@ -112,11 +112,17 @@ const AuthenticationScreen = () => {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View
-        style={[
-          screenStyles.baseScreen,
-          { justifyContent: "space-evenly", padding: 18 },
+    <SafeAreaView style={screenStyles.baseScreen}>
+      <KeyboardAwareScrollView
+        style={screenStyles.baseScreenScrollView}
+        contentContainerStyle={[
+          {
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+            rowGap: 18,
+          },
+          screenStyles.baseScreenScrollViewContentContainer,
         ]}
       >
         {signUpUIShown && (
@@ -265,8 +271,8 @@ const AuthenticationScreen = () => {
         )}
 
         <StatusBar style="auto" />
-      </View>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
