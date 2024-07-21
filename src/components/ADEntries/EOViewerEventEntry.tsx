@@ -22,13 +22,13 @@ const EOViewerEventEntry = (props: EOViewerEventEntryProps) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "flex-end",
           }}
         >
           <ADText>{toADMonthDayDateString(props.isoDate)}</ADText>
           {props.status == "Scheduled" && props.showStatus && (
             <ADFilledTag
-              linearGradientColors={["#0F0", "#0F0"]}
+              linearGradientColors={["#0C0", "#0C0"]}
               text="Scheduled"
             />
           )}
