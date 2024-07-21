@@ -59,6 +59,19 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
     return eventsResponse.json();
   };
 
+  const showStatus = () => {
+    switch (props.type) {
+      case "feed":
+        return false;
+      case "following":
+        return true;
+      case "your-shares":
+        return true;
+      default:
+        return false;
+    }
+  };
+
   useEffect(() => {
     setIsRefreshing(true);
     fetchEvents().then((eventsObject) => {
@@ -77,6 +90,8 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
               <EOViewerEventEntry
                 source={require("../../../assets/1.jpg")}
                 isoDate={item["fields"]["Starts"]}
+                status={item["fields"]["Status"]}
+                showStatus={showStatus()}
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
@@ -90,6 +105,8 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
               <EOViewerEventEntry
                 source={require("../../../assets/2.jpg")}
                 isoDate={item["fields"]["Starts"]}
+                status={item["fields"]["Status"]}
+                showStatus={showStatus()}
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
@@ -103,6 +120,8 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
               <EOViewerEventEntry
                 source={require("../../../assets/3.jpg")}
                 isoDate={item["fields"]["Starts"]}
+                status={item["fields"]["Status"]}
+                showStatus={showStatus()}
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
@@ -116,6 +135,8 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
               <EOViewerEventEntry
                 source={require("../../../assets/4.jpg")}
                 isoDate={item["fields"]["Starts"]}
+                status={item["fields"]["Status"]}
+                showStatus={showStatus()}
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
@@ -129,6 +150,8 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
               <EOViewerEventEntry
                 source={require("../../../assets/5.jpg")}
                 isoDate={item["fields"]["Starts"]}
+                status={item["fields"]["Status"]}
+                showStatus={showStatus()}
                 blurb={item["fields"]["Blurb"]}
                 onPress={() => {
                   navigation.navigate("Details", {
