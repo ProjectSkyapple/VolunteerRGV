@@ -165,6 +165,20 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
         )}
         ItemSeparatorComponent={() => <View style={{ padding: 9 }} />}
         /* TODO: ListEmptyComponent */
+        ListEmptyComponent={
+          <ADText style={{ textAlign: "center" }}>
+            {(() => {
+              switch (props.type) {
+                case "feed":
+                  return "There's nothing in your Feed right now.";
+                case "following":
+                  return "Your Following list is empty.";
+                case "your-shares":
+                  return "You haven't shared any events recently.";
+              }
+            })()}
+          </ADText>
+        }
         ListHeaderComponent={
           <ADText
             style={[
