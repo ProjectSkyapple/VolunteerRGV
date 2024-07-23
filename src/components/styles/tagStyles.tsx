@@ -10,6 +10,7 @@ const tagStyles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
     fontSize: 12,
+    width: "100%",
   },
   filledTagTextAdditions: {
     color: "white",

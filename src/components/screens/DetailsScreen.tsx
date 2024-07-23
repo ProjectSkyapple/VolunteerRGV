@@ -29,6 +29,7 @@ import { RoutesParamList } from "../../types/RoutesParamList";
 import * as SecureStore from "expo-secure-store";
 import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
 import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
+import ADFilledTag from "../ADTags/ADFilledTag";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -158,12 +159,44 @@ export default function DetailsScreen() {
             source={requireImageBackground(details.fields["Image Background"])}
             height={300}
           >
-            <ADText style={[{ textAlign: "center" }, textStyles.mediumHeading]}>
-              {details.fields.Blurb}
-            </ADText>
-            <ADText style={{ textAlign: "center" }}>
-              {details.fields.Host}
-            </ADText>
+            <View style={{ alignItems: "center", rowGap: 3 }}>
+              {details.fields.Status == "Scheduled" &&
+                (eventsList == "following" || eventsList == "your-shares") && (
+                  <ADFilledTag
+                    linearGradientColors={["#0C0", "#0C0"]}
+                    text="Scheduled"
+                  />
+                )}
+              {details.fields.Status == "Canceled" &&
+                (eventsList == "following" || eventsList == "your-shares") && (
+                  <ADFilledTag
+                    linearGradientColors={["#F00", "#F00"]}
+                    text="Canceled"
+                  />
+                )}
+              {details.fields.Status == "In Review" &&
+                (eventsList == "following" || eventsList == "your-shares") && (
+                  <ADFilledTag
+                    linearGradientColors={["#888", "#888"]}
+                    text="In Review"
+                  />
+                )}
+              {details.fields.Status == "Details Changed" &&
+                (eventsList == "following" || eventsList == "your-shares") && (
+                  <ADFilledTag
+                    linearGradientColors={["#F63", "#F63"]}
+                    text="Details Changed"
+                  />
+                )}
+              <ADText
+                style={[{ textAlign: "center" }, textStyles.mediumHeading]}
+              >
+                {details.fields.Blurb}
+              </ADText>
+              <ADText style={{ textAlign: "center" }}>
+                {details.fields.Host}
+              </ADText>
+            </View>
           </ADIBEntry>
 
           <View style={styles.dateAndTime}>
