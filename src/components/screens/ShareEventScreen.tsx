@@ -515,7 +515,37 @@ const ShareEventScreen = () => {
             }}
           >
             <ADText>Is the event no longer happening?</ADText>
-            <ADDangerFilledButton text="Cancel event" onPress={() => {}} />
+            <ADDangerFilledButton
+              text="Cancel event"
+              onPress={() => {
+                Alert.alert(
+                  "You are about to cancel and remove an event from VolunteerRGV.",
+                  `Are you sure you want to remove "${blurb}" from VolunteerRGV? By canceling this event, you are claiming this event is no longer happening, and you will no longer be able to edit this event.`,
+                  [
+                    {
+                      text: "Yes, remove this event",
+                      onPress: () => {
+                        setIsRequesting(true);
+                        cancelAirtableEventRecord().then((details) => {
+                          setIsRequesting(false);
+                          Alert.alert(
+                            "You have canceled and removed an event from VolunteerRGV.",
+                            `Anyone currently following "${blurb}" will be notified this event is no longer happening. You can no longer edit this event.`,
+                            [{ text: "OK" }]
+                          );
+                          navigation.navigate("Details", {
+                            eventsList: "your-shares",
+                            details: details,
+                          });
+                        });
+                      },
+                      style: "destructive", // iOS only
+                    },
+                    { text: "No, keep this event" },
+                  ]
+                );
+              }}
+            />
           </View>
         )}
 

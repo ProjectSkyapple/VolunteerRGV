@@ -274,17 +274,18 @@ export default function DetailsScreen() {
             }}
           />
         )}
-        {eventsList === "your-shares" && (
-          <ADOutlinedButton
-            text="Edit"
-            onPress={() => {
-              navigation.navigate("Share Event", {
-                formType: "edit",
-                details: details,
-              });
-            }}
-          />
-        )}
+        {eventsList === "your-shares" &&
+          details.fields.Status !== "Canceled" && (
+            <ADOutlinedButton
+              text="Edit"
+              onPress={() => {
+                navigation.navigate("Share Event", {
+                  formType: "edit",
+                  details: details,
+                });
+              }}
+            />
+          )}
       </ScrollView>
 
       <StatusBar style="auto" />
