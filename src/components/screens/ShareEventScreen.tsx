@@ -164,7 +164,7 @@ const ShareEventScreen = () => {
         Summary: summary,
         Status: "In Review",
         "Shared By": [airtableUserRecordId],
-        "Image Background": "" + Math.ceil(Math.random() * 4) + 1, // Returns integer strings "1" to "5" inclusive
+        "Image Background": "" + (Math.ceil(Math.random() * 4) + 1), // Returns integer strings "1" to "5" inclusive
       },
     });
 
