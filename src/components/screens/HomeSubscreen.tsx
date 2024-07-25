@@ -4,10 +4,10 @@ import EOViewerEventEntry from "../ADEntries/EOViewerEventEntry";
 import screenStyles from "../styles/screenStyles";
 import textStyles from "../styles/textStyles";
 import { EOEvent } from "../../types/EOEvent";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
 import * as SecureStore from "expo-secure-store";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 // Return user's Airtable Feed
@@ -18,8 +18,8 @@ const returnAirtableEventsListUrl = (
   switch (type) {
     case "feed":
       return encodeURI(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=AND({Status} = "Scheduled", NOT(SEARCH("${user}", {Rollup: Shared By})), NOT(SEARCH("${user}", {Rollup: Followers})))&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
-      );
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=AND(NOT({Status} = "Canceled"), NOT(SEARCH("${user}", {Rollup: Shared By})), NOT(SEARCH("${user}", {Rollup: Followers})))&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
+      ); // Feed list displays only events that are (1) not canceled (but scheduled, had details changed/scheduled with changes, or in review/not approved yet), (2) not shared by the user, and (3) not followed by the user.
     case "following": // TODO: Get user's Airtable Following events from Airtable Users table instead
       return encodeURI(
         `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Events?filterByFormula=SEARCH("${user}", {Rollup: Followers})&sort[0][field]=Starts&sort[0][direction]=asc&view=Grid view`
@@ -72,13 +72,15 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
     }
   };
 
-  useEffect(() => {
-    setIsRefreshing(true);
-    fetchEvents().then((eventsObject) => {
-      setEventsData(eventsObject.records);
-      setIsRefreshing(false);
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setIsRefreshing(true);
+      fetchEvents().then((eventsObject) => {
+        setEventsData(eventsObject.records);
+        setIsRefreshing(false);
+      });
+    }, [])
+  );
 
   return (
     <View style={screenStyles.baseSubscreen}>
@@ -164,7 +166,6 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
           </View>
         )}
         ItemSeparatorComponent={() => <View style={{ padding: 9 }} />}
-        /* TODO: ListEmptyComponent */
         ListEmptyComponent={
           <ADText style={{ textAlign: "center" }}>
             {(() => {
