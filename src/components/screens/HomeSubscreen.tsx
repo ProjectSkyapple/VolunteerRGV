@@ -88,7 +88,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
   );
 
   return (
-    <View style={screenStyles.baseSubscreen}>
+    <View style={screenStyles.baseSubscreen} pointerEvents={pointerEvents}>
       <FlatList
         data={eventsData}
         renderItem={({ item }) => (
@@ -213,7 +213,6 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
         }}
         refreshing={isRefreshing}
         contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 18 }}
-        pointerEvents={pointerEvents}
       />
     </View>
   );
