@@ -39,6 +39,9 @@ interface HomeSubscreenProps {
 const HomeSubscreen = (props: HomeSubscreenProps) => {
   const [eventsData, setEventsData] = useState<EOEvent[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(true);
+  const [pointerEvents, setPointerEvents] = useState<
+    "auto" | "none" | "box-none" | "box-only"
+  >("auto");
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const fetchEvents = async () => {
@@ -75,8 +78,10 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
   useFocusEffect(
     useCallback(() => {
       setIsRefreshing(true);
+      setPointerEvents("none");
       fetchEvents().then((eventsObject) => {
         setEventsData(eventsObject.records);
+        setPointerEvents("auto");
         setIsRefreshing(false);
       });
     }, [])
@@ -208,6 +213,7 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
         }}
         refreshing={isRefreshing}
         contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 18 }}
+        pointerEvents={pointerEvents}
       />
     </View>
   );
