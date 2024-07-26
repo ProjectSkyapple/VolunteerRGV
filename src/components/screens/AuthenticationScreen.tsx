@@ -67,7 +67,6 @@ const AuthenticationScreen = () => {
     let recordId: string = await new Promise(
       (resolve: (value: string) => void) => {
         records.forEach((record) => {
-          console.log("This is " + record.getId());
           airtableUserRecordIdRef.current = record.getId();
           resolve(record.getId());
         });

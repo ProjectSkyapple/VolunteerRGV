@@ -39,9 +39,6 @@ interface HomeSubscreenProps {
 const HomeSubscreen = (props: HomeSubscreenProps) => {
   const [eventsData, setEventsData] = useState<EOEvent[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(true);
-  const [pointerEvents, setPointerEvents] = useState<
-    "auto" | "none" | "box-none" | "box-only"
-  >("auto");
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const fetchEvents = async () => {
@@ -78,17 +75,16 @@ const HomeSubscreen = (props: HomeSubscreenProps) => {
   useFocusEffect(
     useCallback(() => {
       setIsRefreshing(true);
-      setPointerEvents("none");
+      setEventsData([]); // Empty events data to prevent user from interacting with stale data during refresh
       fetchEvents().then((eventsObject) => {
         setEventsData(eventsObject.records);
-        setPointerEvents("auto");
         setIsRefreshing(false);
       });
     }, [])
-  );
+  ); // TODO: Should probably add a cleanup function :) However, this useFocusEffect approach is temporary
 
   return (
-    <View style={screenStyles.baseSubscreen} pointerEvents={pointerEvents}>
+    <View style={screenStyles.baseSubscreen}>
       <FlatList
         data={eventsData}
         renderItem={({ item }) => (
