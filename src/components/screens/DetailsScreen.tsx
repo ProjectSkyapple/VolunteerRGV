@@ -30,6 +30,7 @@ import * as SecureStore from "expo-secure-store";
 import { AIRTABLE_BASE_ID, AIRTABLE_PERSONAL_ACCESS_TOKEN } from "@env";
 import ADOutlinedButton from "../ADButtons/ADOutlinedButton";
 import ADFilledTag from "../ADTags/ADFilledTag";
+import buttonStyles from "../styles/buttonStyles";
 
 interface ADVerticalDTStackProps {
   dateText: string;
@@ -285,6 +286,17 @@ export default function DetailsScreen() {
                 });
               }}
             />
+          )}
+        {eventsList === "your-shares" &&
+          details.fields.Status == "Canceled" && (
+            <ADText
+              style={[
+                buttonStyles.baseButton,
+                { textAlign: "center", color: "#888" },
+              ]}
+            >
+              You can no longer edit this event
+            </ADText>
           )}
       </ScrollView>
 
