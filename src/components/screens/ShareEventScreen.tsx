@@ -437,7 +437,11 @@ const ShareEventScreen = () => {
 
           <ADTextInput
             labelText="Location Address"
-            placeholder="999 Anystreet Rd, Harlingen, TX"
+            placeholder={(() => {
+              return isLocationTypeCheckboxChecked
+                ? "www.example.com"
+                : "999 Anystreet Rd, Harlingen, TX 78550";
+            })()}
             value={locationAddress}
             onChangeText={(newText) => setLocationAddress(newText)}
           />

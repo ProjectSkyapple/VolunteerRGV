@@ -4,18 +4,18 @@ export default {
   expo: {
     name: "VolunteerRGV",
     slug: "VolunteerRGV",
-    version: "1.0.0",
+    version: "0.1.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
     splash: {
       image: "./assets/splash.png",
-      resizeMode: "contain",
-      backgroundColor: "#ffffff",
+      resizeMode: "cover",
+      backgroundColor: "#eeeeee",
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      supportsTablet: true,
+      supportsTablet: false,
     },
     android: {
       adaptiveIcon: {
