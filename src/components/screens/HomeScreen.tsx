@@ -14,6 +14,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import ADFloatingActionButton from "../ADButtons/ADFloatingActionButton";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import * as SecureStore from "expo-secure-store";
+import { auth } from "../../../firebaseConfig";
+import { signOut } from "firebase/auth";
 
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -44,6 +47,14 @@ const HomeScreen = () => {
     }
   };
 
+  const deauthenticate = () => {
+    SecureStore.deleteItemAsync("airtableUserRecordId");
+
+    signOut(auth).then(() => {
+      navigation.reset({ index: 0, routes: [{ name: "Authentication" }] });
+    }); // TODO: Handle error case
+  };
+
   return (
     <SafeAreaView style={screenStyles.baseScreen}>
       <View style={homeScreenStyles.customTTBView}>
@@ -71,8 +82,8 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <TouchableOpacity>
-          <Ionicons name="person-circle-outline" size={32} />
+        <TouchableOpacity onPress={deauthenticate}>
+          <Ionicons name="exit" size={28} />
         </TouchableOpacity>
       </View>
 
