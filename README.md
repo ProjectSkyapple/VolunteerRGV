@@ -55,11 +55,15 @@ Due to the Agile nature of this project's design and development, the project re
 
 ## Design
 
+### Entity-relationship diagram
+
 **Basic entity-relationship diagram** (database design) implemented in an Airtable base:
 
 ![Basic entity-relationship diagram](ERD-corrected.png)
 
 Created with [Eraser.io](https://www.eraser.io).
+
+### Storyboard
 
 **Storyboard** for the UX design:
 
