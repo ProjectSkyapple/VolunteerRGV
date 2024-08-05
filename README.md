@@ -60,3 +60,9 @@ Due to the Agile nature of this project's design and development, the project re
 ![Basic entity-relationship diagram](ERD-corrected.png)
 
 Created with [Eraser.io](https://www.eraser.io).
+
+**Storyboard** for the UX design:
+
+![Storyboard](Storyboard.png)
+
+The image background for each event is a pre-selected gradient rather than a photo in order to maintain aesthetic consistency. However, the UI can allow the use of photos as image backgrounds for events if this functionality is implemented in the future.
