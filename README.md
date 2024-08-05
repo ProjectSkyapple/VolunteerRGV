@@ -70,3 +70,11 @@ Created with [Eraser.io](https://www.eraser.io).
 ![Storyboard](Storyboard.png)
 
 The image background for each event is a pre-selected gradient rather than a photo in order to maintain aesthetic consistency. However, the UI can allow the use of photos as image backgrounds for events if this functionality is implemented in the future.
+
+## Demo
+
+Here's a demo of an earlier version of VolunteerRGV submitted to an app competition. You may consider this demo as some end-to-end testing. Click the image below to view the demonstration on YouTube.
+
+[![Demo](https://img.youtube.com/vi/r0TYg-1kP4k/0.jpg)](https://youtu.be/r0TYg-1kP4k)
+
+Some language is different (such as the Feed being previously called the "For You" list and the Following list being previously called the "To-do" list), but the app's functionality has since remained the same.
