@@ -2,12 +2,12 @@
 
 **VolunteerRGV** is a cross-platform mobile app for iOS and Android where anyone can find and share service opportunities to others in the Rio Grande Valley region, or RGV, of south Texas.
 
-**Time spent:** 280 hours
+**Time spent:** 280 hours (December 2019 - February 2022)
 
-**Technologies used:**
-- React Native (with Expo framework)
-- Firebase (Authentication, Cloud Firestore)
-- Airtable
+**Technologies used (tech stack):**
+- [React Native](https://www.github.com/facebook/react-native) (with [Expo](https://www.github.com/expo/expo) framework)
+- [Firebase](https://firebase.google.com) (Authentication, Cloud Firestore)
+- [Airtable](https://www.airtable.com)
 - TypeScript/JavaScript
 
 ## Problem, Research, and Solution
@@ -78,3 +78,7 @@ Here's a demo of an earlier version of VolunteerRGV submitted to an app competit
 [![Demo](https://img.youtube.com/vi/r0TYg-1kP4k/0.jpg)](https://youtu.be/r0TYg-1kP4k)
 
 Some language is different (such as the Feed being previously called the "For You" list and the Following list being previously called the "To-do" list), but the app's functionality has since remained the same.
+
+## Awards
+- Team Finalist, Software Development competitive event, 2021 National TSA Conference
+- Team Winner, 2021 Congressional App Challenge
