@@ -5,6 +5,7 @@
 **Time spent:** 280 hours (December 2019 - February 2022)
 
 **Technologies used (tech stack):**
+
 - [React Native](https://www.github.com/facebook/react-native) (with [Expo](https://www.github.com/expo/expo) framework)
 - [Firebase](https://firebase.google.com) (Authentication, Cloud Firestore)
 - [Airtable](https://www.airtable.com)
@@ -28,7 +29,7 @@ To further justify the problem, we then asked Rio Grande Valley high school stud
 
 - 100 percent of all respondents would download an app in which not only organizations but also students can post, share, and view available volunteer opportunities that are tailored to their interests.
 
-Additionally, based on a study conducted by Sara E. Helms of Samford University, summarized in an article written by Sarah Sparks of  _Education Week_, high school service requirements are seen to reduce students’ volunteerism in the future because students see service activities as “just homework for school”.
+Additionally, based on a study conducted by Sara E. Helms of Samford University, summarized in an article written by Sarah Sparks of _Education Week_, high school service requirements are seen to reduce students’ volunteerism in the future because students see service activities as “just homework for school”.
 
 **It became clear that developing a cross-platform mobile app where _anyone_ can post, share, and view available service opportunities _all in one place_ to maximize the number of shared opportunities in which users may have interest was the most viable solution.**
 
@@ -59,7 +60,7 @@ Due to the Agile nature of this project's design and development, the project re
 
 **Basic entity-relationship diagram** (database design) implemented in an Airtable base:
 
-![Basic entity-relationship diagram](ERD-corrected.png)
+![Basic entity-relationship diagram](ERD-0.1.1.png)
 
 Created with [Eraser.io](https://www.eraser.io).
 
@@ -80,5 +81,6 @@ Here's a demo of an earlier version of VolunteerRGV submitted to an app competit
 Some language is different (such as the Feed being previously called the "For You" list and the Following list being previously called the "To-do" list), but the app's functionality has since remained the same.
 
 ## Awards
+
 - Team Finalist, Software Development competitive event, 2021 National TSA Conference
 - Team Winner, 2021 Congressional App Challenge
