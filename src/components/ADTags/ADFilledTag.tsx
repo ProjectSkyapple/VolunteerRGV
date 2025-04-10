@@ -1,6 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
 import tagStyles from "../styles/tagStyles";
-import { useState } from "react";
 import ADText from "../ADText/ADText";
 
 interface ADFilledTagProps {

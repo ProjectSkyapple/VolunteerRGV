@@ -6,4 +6,6 @@ declare module "@env" {
 
   export const AIRTABLE_PERSONAL_ACCESS_TOKEN: string;
   export const AIRTABLE_BASE_ID: string;
+
+  export const EAS_PROJECT_ID: string;
 }

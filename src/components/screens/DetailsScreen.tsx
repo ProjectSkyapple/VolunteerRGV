@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import ADPrimaryFilledButton from "../ADButtons/ADPrimaryFilledButton";
@@ -12,10 +11,7 @@ import ADDangerFilledButton from "../ADButtons/ADDangerFilledButton";
 import ADHPCard from "../ADCards/ADHPCard";
 import ADIBEntry from "../ADEntries/ADIBEntry";
 import textStyles from "../styles/textStyles";
-import Constants from "expo-constants";
 import ADText from "../ADText/ADText";
-import HomeScreen from "../screens/HomeScreen";
-import AuthenticationScreen from "../screens/AuthenticationScreen";
 import screenStyles from "../styles/screenStyles";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -292,7 +288,7 @@ export default function DetailsScreen() {
             <ADText
               style={[
                 buttonStyles.baseButton,
-                { textAlign: "center", color: "#888" },
+                { textAlign: "center", color: "#888" }, // TODO: (Maybe) add to colors.ts?
               ]}
             >
               You can no longer edit this event
@@ -303,8 +299,6 @@ export default function DetailsScreen() {
       <StatusBar style="auto" />
     </SafeAreaView>
   );
-
-  // return <AuthenticationScreen />;
 }
 
 const styles = StyleSheet.create({

@@ -6,7 +6,7 @@ import ADText from "../ADText/ADText";
 
 interface ADOutlinedButtonProps {
   text: string;
-  onPress?: (...args: any[]) => void;
+  onPress?: (...args: any[]) => any;
 }
 
 const ADOutlinedButton = (props: ADOutlinedButtonProps) => {

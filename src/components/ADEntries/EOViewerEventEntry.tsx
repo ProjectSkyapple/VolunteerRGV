@@ -11,7 +11,7 @@ interface EOViewerEventEntryProps {
   blurb: string;
   status: string;
   showStatus: boolean;
-  onPress?: () => void;
+  onPress?: (...args: any[]) => any;
 }
 
 const EOViewerEventEntry = (props: EOViewerEventEntryProps) => {

@@ -16,13 +16,12 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { Colors } from "../styles/colors";
 import { airtableBase } from "../../../airtableConfig";
 import { FieldSet, Records } from "airtable";
 import * as SecureStore from "expo-secure-store";
 
 const AuthenticationScreen = () => {
-  const [signUpUIShown, setSignUpUIShown] = useState(true);
+  const [signUpUIShown, setSignUpUIShown] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [name, setName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -198,7 +197,7 @@ const AuthenticationScreen = () => {
                   setIsAuthenticating(false);
                   showErrorAlert(
                     "Authentication",
-                    `We couldn't authenticate your account. ${error as string}`
+                    `We couldn't authenticate your account. ${error as string}` // TODO: Consider not using direct casting.
                   );
                 });
             }}
@@ -265,9 +264,7 @@ const AuthenticationScreen = () => {
           </View>
         )}
 
-        {isAuthenticating && (
-          <ActivityIndicator color={Colors.primaryColor} size="large" />
-        )}
+        {isAuthenticating && <ActivityIndicator size="large" />}
 
         <StatusBar style="auto" />
       </KeyboardAwareScrollView>

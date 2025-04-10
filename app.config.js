@@ -4,7 +4,7 @@ export default {
   expo: {
     name: "VolunteerRGV",
     slug: "VolunteerRGV",
-    version: "0.1.0",
+    version: "0.1.1",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -24,6 +24,7 @@ export default {
         backgroundImage: "./assets/adaptive-icon-background.png",
         monochromeImage: "./assets/adaptive-icon-monochrome.png",
       },
+      package: "com.avgeekydev.VolunteerRGV",
     },
     web: {
       favicon: "./assets/favicon.png",
@@ -33,6 +34,9 @@ export default {
       firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
       firebaseMessagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.FIREBASE_APP_ID,
+      eas: {
+        projectId: EAS_PROJECT_ID,
+      },
     },
     plugins: ["expo-secure-store"],
   },
