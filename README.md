@@ -62,7 +62,7 @@ Due to the Agile nature of this project's design and development, the project re
 
 ![Basic entity-relationship diagram](ERD-0.1.1.png)
 
-Created with [Eraser.io](https://www.eraser.io).
+Created with [PlantUML](https://plantuml.com).
 
 ### Storyboard
 
