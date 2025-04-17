@@ -14,7 +14,7 @@ interface ADFloatingActionButtonProps {
   linearGradientColors: string[];
   text: string;
   ioniconsGlyph: ExtractGlyphs<typeof _default>;
-  onPress?: (...args: any[]) => void;
+  onPress?: (...args: any[]) => any;
 }
 
 const ADFloatingActionButton = (props: ADFloatingActionButtonProps) => {

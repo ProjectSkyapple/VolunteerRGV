@@ -3,7 +3,7 @@ import { Colors } from "../styles/colors";
 
 interface ADDangerFilledButtonProps {
   text: string;
-  onPress?: (...args: any[]) => void;
+  onPress?: (...args: any[]) => any;
 }
 
 const ADDangerFilledButton = (props: ADDangerFilledButtonProps) => {

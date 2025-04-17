@@ -4,7 +4,6 @@ import {
   Alert,
   Pressable,
   SafeAreaView,
-  Text,
   View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -18,7 +17,6 @@ import { ReactNode, useRef, useState } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RoutesParamList } from "../../types/RoutesParamList";
-import { Colors } from "../styles/colors";
 import Checkbox from "expo-checkbox";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import * as SecureStore from "expo-secure-store";
@@ -53,10 +51,6 @@ const ShareEventScreen = () => {
 
   let initialBlurb;
   let initialHost;
-  let initialStartDate;
-  let initialStartTime;
-  let initialEndDate;
-  let initialEndTime;
   let initialLocationType;
   let initialIsLocationTypeCheckboxChecked;
   let initialLocationAddress;
@@ -144,8 +138,15 @@ const ShareEventScreen = () => {
     endDateObject.current.toISOString()
   );
 
+  // TODO: Possibly refine this validation
   const validateInput = () => {
-    return startDateISOString >= endDateISOString ? false : true;
+    return (
+      blurb != "" &&
+      host != "" &&
+      locationAddress != "" &&
+      summary != "" &&
+      (startDateISOString >= endDateISOString ? false : true)
+    );
   };
 
   const createAirtableEventRecord = async () => {
@@ -184,10 +185,6 @@ const ShareEventScreen = () => {
   };
 
   const editAirtableEventRecord = async () => {
-    let airtableUserRecordId = await SecureStore.getItemAsync(
-      "airtableUserRecordId"
-    );
-
     let eventDataInput = JSON.stringify({
       fields: {
         Blurb: blurb,
@@ -217,10 +214,6 @@ const ShareEventScreen = () => {
   };
 
   const cancelAirtableEventRecord = async () => {
-    let airtableUserRecordId = await SecureStore.getItemAsync(
-      "airtableUserRecordId"
-    );
-
     let eventDataInput = JSON.stringify({
       fields: {
         Status: "Canceled",
@@ -260,10 +253,10 @@ const ShareEventScreen = () => {
           <ADText style={textStyles.largeHeading}>Edit this event.</ADText>
         )}
 
-        <Text>
+        <ADText>
           Shared events should follow the Shared Event Guidelines and are
           subject to review.
-        </Text>
+        </ADText>
 
         <View style={{ rowGap: 18, width: "100%" }}>
           <ADTextInput
@@ -309,7 +302,7 @@ const ShareEventScreen = () => {
               mode="date"
               minimumDate={earliestAllowableDate.current}
               onChange={(event, date) => {
-                setIsStartDatePickerShown(false);
+                setIsStartDatePickerShown(false); // Call for Android only. TODO: Work on iOS implementation.
 
                 if (event.type === "set") {
                   startDateObject.current = date;
@@ -430,7 +423,7 @@ const ShareEventScreen = () => {
                     setIsLocationTypeCheckboxChecked(false);
                   }
                 }}
-                color={Colors.primaryColor}
+                color={"#000"}
               />
             }
           />
@@ -474,7 +467,7 @@ const ShareEventScreen = () => {
               } else {
                 Alert.alert(
                   "Input Error",
-                  "The event cannot end before it starts.",
+                  "The event cannot end before it starts, or some fields are empty.",
                   [{ text: "Dismiss" }]
                 );
               }
@@ -502,7 +495,7 @@ const ShareEventScreen = () => {
               } else {
                 Alert.alert(
                   "Input Error",
-                  "The event cannot end before it starts.",
+                  "The event cannot end before it starts, or some fields are empty.",
                   [{ text: "Dismiss" }]
                 );
               }
@@ -553,14 +546,14 @@ const ShareEventScreen = () => {
           </View>
         )}
 
-        {isRequesting && (
-          <ActivityIndicator color={Colors.primaryColor} size="large" />
-        )}
+        {isRequesting && <ActivityIndicator size="large" />}
 
         <StatusBar style="auto" />
       </KeyboardAwareScrollView>
-    </SafeAreaView>
+    </SafeAreaView> // TODO: Need a provider?
   );
 };
 
 export default ShareEventScreen;
+
+// TODO: Fix potential time zone issues.

@@ -1,9 +1,10 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { Colors } from "./colors";
 
 const screenStyles = StyleSheet.create({
   baseScreen: {
     flex: 1,
-    backgroundColor: "#EEE",
+    backgroundColor: Colors.screenBackgroundColor,
     alignItems: "center",
     justifyContent: "center",
     height: Dimensions.get("window").height,

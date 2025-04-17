@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, View } from "react-native";
 import ADText from "../ADText/ADText";
 import EOViewerEventEntry from "../ADEntries/EOViewerEventEntry";
 import screenStyles from "../styles/screenStyles";

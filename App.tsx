@@ -12,6 +12,7 @@ import * as SecureStore from "expo-secure-store";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
+import { Colors } from "./src/components/styles/colors";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -60,7 +61,7 @@ export default function App() {
     <View
       style={{
         width: "100%",
-        backgroundColor: "#EEE",
+        backgroundColor: Colors.screenBackgroundColor,
         height: "100%",
       }}
     >
@@ -74,7 +75,7 @@ export default function App() {
             headerShadowVisible: false,
             headerTintColor: "#000",
             headerStyle: {
-              backgroundColor: "#EEE",
+              backgroundColor: Colors.screenBackgroundColor,
             },
           }}
         >

@@ -3,4 +3,5 @@ export enum Colors {
   darkDangerColor = "#CF0000",
   lightPrimaryColor = "#30A8FF",
   primaryColor = "#0061FF",
+  screenBackgroundColor = "#EEE",
 }
